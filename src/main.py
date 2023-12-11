@@ -34,9 +34,8 @@ brain = Brain()
 
 controller = Controller()
 
-piston1 = Pneumatics(brain.three_wire_port.a)
-piston2 = Pneumatics(brain.three_wire_port.b)
-piston = PneumaticsGroup(piston1, piston2)
+piston = Pneumatics(brain.three_wire_port.a)
+
 
 fleft = Motor(Ports.PORT6)
 mleft = Motor(Ports.PORT9, True)
@@ -102,10 +101,6 @@ def driver_control():
         elif controller.buttonR2.pressed():
             piston.close()
 
-def auton_defence():
-    pass
-
-
 all = DriveTrain(left, right, 259)
 distance = 1000
 
@@ -128,5 +123,17 @@ def autooo_defense():
     piston.close()
 
 
+def autoo_offense():
+    move(FORWARD, 1600)
+    all.turn(LEFT, 90)
+    piston.open()
+    wait(100)
+    move(FORWARD, 630)
+    move(REVERSE, 500)
+
+
 autooo_defense()
+autoo_offense()
 driver_control()
+
+# shiori is dying
