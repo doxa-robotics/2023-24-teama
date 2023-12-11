@@ -10,7 +10,6 @@ def convert_damped_controller(val):
         return value
 
 
-
 class PneumaticsGroup:
     members: list[Pneumatics]
     value: bool
@@ -96,10 +95,11 @@ def driver_control():
             flywheel.stop()
 
         # Pneumatics
-        if controller.buttonR1.pressed():
+        if controller.buttonR1.pressing():
             piston.open()
-        elif controller.buttonR2.pressed():
+        elif controller.buttonR2.pressing():
             piston.close()
+
 
 all = DriveTrain(left, right, 259)
 distance = 1000
