@@ -33,9 +33,8 @@ brain = Brain()
 
 controller = Controller()
 
-piston1 = Pneumatics(brain.three_wire_port.a)
-piston2 = Pneumatics(brain.three_wire_port.b)
-piston = PneumaticsGroup(piston1, piston2)
+piston = Pneumatics(brain.three_wire_port.a)
+
 
 fleft = Motor(Ports.PORT6)
 mleft = Motor(Ports.PORT9, True)
@@ -96,10 +95,6 @@ def driver_control():
             flywheel.stop()
 
 
-def auton_defence():
-    pass
-
-
 all = DriveTrain(left, right, 259)
 distance = 1000
 
@@ -132,6 +127,7 @@ def autoo_offense():
 
 
 autooo_defense()
+autoo_offense()
 driver_control()
 
 # shiori is dying
