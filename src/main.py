@@ -33,9 +33,8 @@ brain = Brain()
 
 controller = Controller()
 
-piston1 = Pneumatics(brain.three_wire_port.a)
-piston2 = Pneumatics(brain.three_wire_port.b)
-piston = PneumaticsGroup(piston1, piston2)
+piston = Pneumatics(brain.three_wire_port.a)
+
 
 fleft = Motor(Ports.PORT6)
 mleft = Motor(Ports.PORT9, True)
@@ -94,10 +93,6 @@ def driver_control():
             flywheel.spin(DirectionType.FORWARD, 20, PERCENT)
         else:
             flywheel.stop()
-
-
-def auton_defence():
-    pass
 
 
 all = DriveTrain(left, right, 259)
