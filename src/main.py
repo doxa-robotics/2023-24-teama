@@ -1,6 +1,8 @@
 from vex import *
 import math
 
+DEBUG = True
+
 
 def convert_damped_controller(val):
     value = math.pow(0.1*val, 2)
@@ -103,7 +105,7 @@ def move(direction: DirectionType.DirectionType, distance: int):
     all.drive_for(direction, distance, MM, velocity=50)
 
 
-def autooo_defense():
+def autooo_d():
     move(FORWARD, 1000)
     all.turn(LEFT, 90)
     move(FORWARD, 500)
@@ -117,7 +119,7 @@ def autooo_defense():
     piston.close()
 
 
-def autoo_offense():
+def autoo_o():
     move(FORWARD, 1600)
     all.turn(LEFT, 90)
     piston.open()
@@ -126,6 +128,8 @@ def autoo_offense():
     move(REVERSE, 500)
 
 
-autooo_defense()
-autoo_offense()
-driver_control()
+if DEBUG:
+    autooo_d()
+    driver_control()
+else:
+    Competition(driver_control, driver_control)
