@@ -132,6 +132,6 @@ def autoo_offense():
     move(REVERSE, 500)
 
 
-autooo_defense()
-autoo_offense()
+# autooo_defense()
+# autoo_offense()
 driver_control()
