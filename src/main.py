@@ -71,10 +71,10 @@ def driver_control():
         wait(20)
 
         # lever
-        if controller.buttonR1.pressing():
+        if controller.buttonUp.pressing():
             lever.spin(DirectionType.FORWARD, 90, RPM)
 
-        elif controller.buttonL1.pressing():
+        elif controller.buttonDown.pressing():
             lever.spin(DirectionType.REVERSE, 90, RPM)
 
         else:
