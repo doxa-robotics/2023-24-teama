@@ -33,6 +33,10 @@ brain = Brain()
 
 controller = Controller()
 
+piston1 = Pneumatics(brain.three_wire_port.a)
+piston2 = Pneumatics(brain.three_wire_port.b)
+piston = PneumaticsGroup(piston1, piston2)
+
 fleft = Motor(Ports.PORT6)
 mleft = Motor(Ports.PORT9, True)
 bleft = Motor(Ports.PORT8, True)
