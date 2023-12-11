@@ -127,4 +127,5 @@ def autoo_offense():
 
 
 autooo_defense()
+autoo_offense()
 driver_control()
