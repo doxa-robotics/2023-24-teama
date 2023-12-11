@@ -33,7 +33,11 @@ brain = Brain()
 
 controller = Controller()
 
-piston = Pneumatics(brain.three_wire_port.a)
+piston = Pneumatics(brain.three_wire_port.a) # <-- See my comment below. Also, check
+                                             #     the config sheet at 
+                                             #     doxa-robotics/robot-configuration.
+                                             #     I think I'll ask them if they can
+                                             #     update it themselves tomorrow.
 
 
 fleft = Motor(Ports.PORT6)
@@ -51,10 +55,16 @@ flywheel = Motor(Ports.PORT20)
 left = MotorGroup(fleft, mleft, bleft)
 right = MotorGroup(fright, mright, bright)
 
-gyro = Gyro(brain.three_wire_port.a)
+gyro = Gyro(brain.three_wire_port.a) # <-- This is what's breaking the code right now.
+                                     #     Both the gryo and pneumatics are trying to 
+                                     #     use the same port number. Go check the  
+                                     #     config sheet and check with the builders  
+                                     #     about the real hardware wiring.
 
 drive_train = SmartDrive(left, right, gyro, 255, 393.7)
 
+# Wait to let things settle
+wait(200)
 
 def driver_control():
     while True:
