@@ -120,5 +120,14 @@ def autooo_defense():
     piston.close()
 
 
+def autoo_offense():
+    move(FORWARD, 1600)
+    all.turn(LEFT, 90)
+    piston.open()
+    wait(100)
+    move(FORWARD, 630)
+    move(REVERSE, 500)
+
+
 autooo_defense()
 driver_control()
