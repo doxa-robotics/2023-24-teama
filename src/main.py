@@ -1,14 +1,16 @@
 from vex import *
 import math
 
+
 def convert_damped_controller(val):
     value = math.pow(0.1*val, 2)
-    if val<0:
+    if val < 0:
         return -value
     else:
         return value
-    
-brain=Brain()
+
+
+brain = Brain()
 
 controller = Controller()
 
@@ -31,19 +33,22 @@ gyro = Gyro(brain.three_wire_port.a)
 
 drive_train = SmartDrive(left, right, gyro, 255, 393.7)
 
+
 def driver_control():
     while True:
         # drivetrain
         left.spin(
             DirectionType.FORWARD,
-            convert_damped_controller(controller.axis3.position()) + convert_damped_controller(controller.axis1.position()),
+            convert_damped_controller(controller.axis3.position(
+            )) + convert_damped_controller(controller.axis1.position()),
             VelocityUnits.PERCENT)
 
         right.spin(
             DirectionType.FORWARD,
-            convert_damped_controller(controller.axis3.position()) - convert_damped_controller(controller.axis1.position()),
+            convert_damped_controller(controller.axis3.position(
+            )) - convert_damped_controller(controller.axis1.position()),
             VelocityUnits.PERCENT)
-        
+
         wait(20)
 
         # lever
@@ -52,17 +57,22 @@ def driver_control():
 
         elif controller.buttonL1.pressing():
             lever.spin(DirectionType.REVERSE, 90, RPM)
-      
+
         else:
             lever.stop(BRAKE)
 
         # fly wheel (TOGGLE IT. BUTTONS. ADD INTAKE VERSION)
         if controller.buttonR2.pressing():
             flywheel.spin(DirectionType.FORWARD, 100, PERCENT)
-        
+
         elif controller.buttonL2.pressing():
             flywheel.spin(DirectionType.REVERSE, 50, PERCENT)
         else:
             flywheel.stop()
+
+
+def auton_defence():
+    pass
+
 
 driver_control()
