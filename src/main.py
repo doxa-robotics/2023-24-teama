@@ -10,6 +10,25 @@ def convert_damped_controller(val):
         return value
 
 
+class PneumaticsGroup:
+    members: list[Pneumatics]
+    value: bool
+
+    def __init__(self, *args: Pneumatics):
+        self.members = list(args)
+        self.value = False
+
+    def open(self):
+        self.value = True
+        for member in self.members:
+            member.open()
+
+    def close(self):
+        self.value = False
+        for member in self.members:
+            member.close()
+
+
 brain = Brain()
 
 controller = Controller()
