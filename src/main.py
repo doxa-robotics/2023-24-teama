@@ -133,3 +133,5 @@ def autoo_offense():
 
 autooo_defense()
 driver_control()
+
+# shiori is dying
