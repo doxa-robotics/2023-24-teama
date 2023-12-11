@@ -85,9 +85,9 @@ def driver_control():
             lever.stop(BRAKE)
 
         # fly wheel (TOGGLE IT. BUTTONS. ADD INTAKE VERSION)
-        if controller.buttonA.pressing():
-            flywheel.spin(DirectionType.FORWARD, 100, PERCENT)
 
+        if controller.buttonA.pressing():
+            flywheel.spin(DirectionType.FORWARD, 100, PERCENT)*
         elif controller.buttonX.pressing():
             flywheel.spin(DirectionType.REVERSE, 50, PERCENT)
         elif controller.buttonB.pressing():
