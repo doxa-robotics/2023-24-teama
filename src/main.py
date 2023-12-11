@@ -108,4 +108,19 @@ def move(direction: DirectionType.DirectionType, distance: int):
     all.drive_for(direction, distance, MM, velocity=50)
 
 
+def autooo_defense():
+    move(FORWARD, 1000)
+    all.turn(LEFT, 90)
+    move(FORWARD, 500)
+    all.turn(RIGHT, 90)
+    move(FORWARD, 400)
+    all.turn(RIGHT, 90)
+    piston.open()
+    wait(100)
+    move(FORWARD, 900)
+    move(REVERSE, 500)
+    piston.close()
+
+
+autooo_defense()
 driver_control()
