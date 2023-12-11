@@ -94,4 +94,12 @@ def auton_defence():
     pass
 
 
+all = DriveTrain(left, right, 259)
+distance = 1000
+
+
+def move(direction: DirectionType.DirectionType, distance: int):
+    all.drive_for(direction, distance, MM, velocity=50)
+
+
 driver_control()
