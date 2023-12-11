@@ -10,6 +10,7 @@ def convert_damped_controller(val):
         return value
 
 
+
 class PneumaticsGroup:
     members: list[Pneumatics]
     value: bool
@@ -95,6 +96,11 @@ def driver_control():
         else:
             flywheel.stop()
 
+        # Pneumatics
+        if controller.buttonR1.pressed():
+            piston.open()
+        elif controller.buttonR2.pressed():
+            piston.close()
 
 def auton_defence():
     pass
