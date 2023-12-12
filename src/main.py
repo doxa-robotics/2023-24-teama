@@ -35,7 +35,12 @@ brain = Brain()
 
 controller = Controller()
 
+# <-- See my comment below. Also, check
 piston = Pneumatics(brain.three_wire_port.a)
+#     the config sheet at
+#     doxa-robotics/robot-configuration.
+#     I think I'll ask them if they can
+#     update it themselves tomorrow.
 
 
 fleft = Motor(Ports.PORT6)
@@ -53,9 +58,17 @@ flywheel = Motor(Ports.PORT20)
 left = MotorGroup(fleft, mleft, bleft)
 right = MotorGroup(fright, mright, bright)
 
+# <-- This is what's breaking the code right now.
 gyro = Gyro(brain.three_wire_port.a)
+#     Both the gryo and pneumatics are trying to
+#     use the same port number. Go check the
+#     config sheet and check with the builders
+#     about the real hardware wiring.
 
 drive_train = SmartDrive(left, right, gyro, 255, 393.7)
+
+# Wait to let things settle
+wait(200)
 
 
 def driver_control():
@@ -86,15 +99,21 @@ def driver_control():
             lever.stop(BRAKE)
 
         # fly wheel (TOGGLE IT. BUTTONS. ADD INTAKE VERSION)
+
         if controller.buttonA.pressing():
             flywheel.spin(DirectionType.FORWARD, 100, PERCENT)
-
         elif controller.buttonX.pressing():
             flywheel.spin(DirectionType.REVERSE, 50, PERCENT)
         elif controller.buttonB.pressing():
             flywheel.spin(DirectionType.FORWARD, 20, PERCENT)
         else:
             flywheel.stop()
+
+        # Pneumatics
+        if controller.buttonR1.pressing():
+            piston.open()
+        elif controller.buttonR2.pressing():
+            piston.close()
 
 
 all = DriveTrain(left, right, 259)
