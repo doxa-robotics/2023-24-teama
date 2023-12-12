@@ -116,7 +116,9 @@ def driver_control():
             piston.close()
 
 
+# This is not a smart drive train. It will not turn exactly 90 degrees b/c it has no gyro
 all = DriveTrain(left, right, 259)
+# We already have a drive_train defined above. Use that instead of all. Find and replace is your friend.
 distance = 1000
 
 
