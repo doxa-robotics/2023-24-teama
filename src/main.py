@@ -125,22 +125,22 @@ def move(direction: DirectionType.DirectionType, distance: int):
 
 
 def autooo_d():
-    move(FORWARD, 1000)
-    all.turn(LEFT, 90)
     move(FORWARD, 500)
-    all.turn(RIGHT, 90)
-    move(FORWARD, 400)
-    all.turn(RIGHT, 90)
+    all.turn_for(LEFT, 90)
+    move(FORWARD, 250)
+    all.turn_for(RIGHT, 90)
+    move(FORWARD, 200)
+    all.turn_for(RIGHT, 90)
     piston.open()
     wait(100)
-    move(FORWARD, 900)
-    move(REVERSE, 500)
+    move(FORWARD, 450)
+    move(REVERSE, 250)
     piston.close()
 
 
 def autoo_o():
     move(FORWARD, 1600)
-    all.turn(LEFT, 90)
+    all.turn_for(LEFT, 90)
     piston.open()
     wait(100)
     move(FORWARD, 630)
