@@ -58,16 +58,11 @@ flywheel = Motor(Ports.PORT20)
 left = MotorGroup(fleft, mleft, bleft)
 right = MotorGroup(fright, mright, bright)
 
-# <-- This is what's breaking the code right now.
+
 gyro = Gyro(brain.three_wire_port.b)
-#     Both the gryo and pneumatics are trying to
-#     use the same port number. Go check the
-#     config sheet and check with the builders
-#     about the real hardware wiring.
 
 drive_train = SmartDrive(left, right, gyro, 255, 393.7)
 
-# Wait to let things settle
 wait(200)
 
 
