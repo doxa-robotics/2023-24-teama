@@ -52,7 +52,6 @@ flywheel = Motor(Ports.PORT20)
 left = MotorGroup(fleft, mleft, bleft)
 right = MotorGroup(fright, mright, bright)
 
-
 gyro = Gyro(brain.three_wire_port.b)
 
 drive_train = SmartDrive(left, right, gyro, 255, 393.7)
@@ -112,9 +111,9 @@ def move(direction: DirectionType.DirectionType, distance: int):
 def autooo_d():
     move(FORWARD, 500)
     drive_train.turn_for(LEFT, 90)
-    move(FORWARD, 250)
+    move(FORWARD, 270)
     drive_train.turn_for(RIGHT, 90)
-    move(FORWARD, 200)
+    move(FORWARD, 300)
     drive_train.turn_for(RIGHT, 90)
     piston.open()
     wait(100)
@@ -133,7 +132,7 @@ def autoo_o():
 
 
 if DEBUG:
-    # autooo_d()
+    autooo_d()
     driver_control()
 else:
     Competition(driver_control, driver_control)
