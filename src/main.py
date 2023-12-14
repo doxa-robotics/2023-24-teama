@@ -105,20 +105,17 @@ def driver_control():
             piston.close()
 
 
-all = DriveTrain(left, right, 259)
-
-
 def move(direction: DirectionType.DirectionType, distance: int):
-    all.drive_for(direction, distance, MM, velocity=50)
+    drive_train.drive_for(direction, distance, MM, velocity=50)
 
 
 def autooo_d():
     move(FORWARD, 500)
-    all.turn_for(LEFT, 90)
+    drive_train.turn_for(LEFT, 90)
     move(FORWARD, 250)
-    all.turn_for(RIGHT, 90)
+    drive_train.turn_for(RIGHT, 90)
     move(FORWARD, 200)
-    all.turn_for(RIGHT, 90)
+    drive_train.turn_for(RIGHT, 90)
     piston.open()
     wait(100)
     move(FORWARD, 450)
@@ -128,7 +125,7 @@ def autooo_d():
 
 def autoo_o():
     move(FORWARD, 1600)
-    all.turn_for(LEFT, 90)
+    drive_train.turn_for(LEFT, 90)
     piston.open()
     wait(100)
     move(FORWARD, 630)
