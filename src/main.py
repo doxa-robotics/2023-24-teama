@@ -35,13 +35,7 @@ brain = Brain()
 
 controller = Controller()
 
-# <-- See my comment below. Also, check
 piston = Pneumatics(brain.three_wire_port.a)
-#     the config sheet at
-#     doxa-robotics/robot-configuration.
-#     I think I'll ask them if they can
-#     update it themselves tomorrow.
-
 
 fleft = Motor(Ports.PORT6)
 mleft = Motor(Ports.PORT9, True)
@@ -111,10 +105,7 @@ def driver_control():
             piston.close()
 
 
-# This is not a smart drive train. It will not turn exactly 90 degrees b/c it has no gyro
 all = DriveTrain(left, right, 259)
-# We already have a drive_train defined above. Use that instead of all. Find and replace is your friend.
-distance = 1000
 
 
 def move(direction: DirectionType.DirectionType, distance: int):
@@ -145,7 +136,7 @@ def autoo_o():
 
 
 if DEBUG:
-    #autooo_d()
+    # autooo_d()
     driver_control()
 else:
     Competition(driver_control, driver_control)
