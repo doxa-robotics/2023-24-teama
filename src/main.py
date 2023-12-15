@@ -60,7 +60,7 @@ gyro = Gyro(brain.three_wire_port.b)
 drive_train = SmartDrive(left, right, gyro, 255, 393.7)
 
 wait(200)
-
+# TODO: we should calibrate the gyro here instead
 
 def driver_control():
     # The heading when we started driving straight.
