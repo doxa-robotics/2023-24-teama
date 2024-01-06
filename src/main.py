@@ -138,7 +138,7 @@ def autoo_o():
 
 
 if DEBUG:
-    autooo_d()
+    # autooo_d()
     driver_control()
 else:
     Competition(driver_control, driver_control)
