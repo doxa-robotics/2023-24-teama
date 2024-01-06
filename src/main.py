@@ -7,6 +7,7 @@ DEBUG = True
 # TODO: Fine tweak this until it works well.
 PID_AGGRESSION_MODIFIER = 5
 
+
 def convert_damped_controller(val):
     value = math.pow(0.1*val, 2)
     if val < 0:
@@ -62,6 +63,7 @@ drive_train = SmartDrive(left, right, gyro, 255, 393.7)
 wait(200)
 # TODO: we should calibrate the gyro here instead
 
+
 def driver_control():
     # The heading when we started driving straight.
     initial_heading: vexnumber | None = None
@@ -69,11 +71,11 @@ def driver_control():
     last_controller_turn_pos: vexnumber | None = None
     while True:
         # drivetrain
-        axis1 = controller.axis1.position() # Turning modifier
-        axis3 = controller.axis3.position() # Speed
+        axis1 = controller.axis1.position()  # Turning modifier
+        axis3 = controller.axis3.position()  # Speed
         if axis3 == 0:
             # Special PID straight driving
-            if last_controller_turn_pos != 0:
+            if last_controller_turn_pos != 0 or initial_heading == None:
                 # If the last position of the controller wasn't centered:
                 # Reset the current heading and try to maintain it.
                 initial_heading = gyro.heading()
@@ -98,12 +100,14 @@ def driver_control():
             # Normal driving
             left.spin(
                 DirectionType.FORWARD,
-                convert_damped_controller(axis3) + convert_damped_controller(axis1),
+                convert_damped_controller(
+                    axis3) + convert_damped_controller(axis1),
                 VelocityUnits.PERCENT)
 
             right.spin(
                 DirectionType.FORWARD,
-                convert_damped_controller(axis3) - convert_damped_controller(axis1),
+                convert_damped_controller(
+                    axis3) - convert_damped_controller(axis1),
                 VelocityUnits.PERCENT)
         last_controller_turn_pos = axis1
 
