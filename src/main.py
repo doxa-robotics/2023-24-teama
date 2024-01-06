@@ -60,8 +60,9 @@ wait(200)
 
 
 def driver_control():
-    last_a_pressing = False
+    last_r2_pressing = False
     flywheel_spin_forward = False
+    last_a_pressing = False
     while True:
         # drivetrain
         left.spin(
@@ -79,10 +80,10 @@ def driver_control():
         wait(20)
 
         # lever
-        if controller.buttonUp.pressing():
+        if controller.buttonR1.pressing():
             lever.spin(DirectionType.FORWARD, 90, RPM)
 
-        elif controller.buttonDown.pressing():
+        elif controller.buttonL1.pressing():
             lever.spin(DirectionType.REVERSE, 90, RPM)
 
         else:
@@ -90,24 +91,24 @@ def driver_control():
 
         # fly wheel (TOGGLE IT. BUTTONS. ADD INTAKE VERSION)
 
-        if controller.buttonA.pressing() and not last_a_pressing:
+        if controller.buttonR2.pressing() and not last_r2_pressing:
             flywheel_spin_forward = not flywheel_spin_forward
-        last_a_pressing = controller.buttonA.pressing()
+        last_r2_pressing = controller.buttonA.pressing()
 
         if flywheel_spin_forward:
             flywheel.spin(DirectionType.FORWARD, 100, PERCENT)
-        elif controller.buttonX.pressing():
+        elif controller.buttonL2.pressing():
             flywheel.spin(DirectionType.REVERSE, 50, PERCENT)
-        elif controller.buttonB.pressing():
-            flywheel.spin(DirectionType.FORWARD, 20, PERCENT)
         else:
             flywheel.stop()
 
         # Pneumatics
-        if controller.buttonR1.pressing():
-            piston.open()
-        elif controller.buttonR2.pressing():
-            piston.close()
+        if controller.buttonA.pressing() and not last_a_pressing:
+            if piston.value():
+                piston.close()
+            else:
+                piston.open()
+        last_a_pressing = controller.buttonA.pressing()
 
 
 def move(direction: DirectionType.DirectionType, distance: int):
