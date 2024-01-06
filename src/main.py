@@ -35,7 +35,8 @@ brain = Brain()
 
 controller = Controller()
 
-piston = Pneumatics(brain.three_wire_port.a)
+wing_piston = Pneumatics(brain.three_wire_port.a)
+balance_piston = Pneumatics(brain.three_wire_port.c)
 
 fleft = Motor(Ports.PORT6)
 mleft = Motor(Ports.PORT9, True)
@@ -63,6 +64,7 @@ def driver_control():
     last_r2_pressing = False
     flywheel_spin_forward = False
     last_a_pressing = False
+    last_b_pressing = False
     while True:
         # drivetrain
         left.spin(
@@ -104,11 +106,17 @@ def driver_control():
 
         # Pneumatics
         if controller.buttonA.pressing() and not last_a_pressing:
-            if piston.value():
-                piston.close()
+            if wing_piston.value():
+                wing_piston.close()
             else:
-                piston.open()
+                wing_piston.open()
         last_a_pressing = controller.buttonA.pressing()
+        if controller.buttonB.pressing() and not last_b_pressing:
+            if balance_piston.value():
+                balance_piston.close()
+            else:
+                balance_piston.open()
+        last_b_pressing = controller.buttonB.pressing()
 
 
 def move(direction: DirectionType.DirectionType, distance: int):
@@ -122,17 +130,17 @@ def autooo_d():
     drive_train.turn_for(RIGHT, 90)
     move(FORWARD, 300)
     drive_train.turn_for(RIGHT, 90)
-    piston.open()
+    wing_piston.open()
     wait(100)
     move(FORWARD, 450)
     move(REVERSE, 250)
-    piston.close()
+    wing_piston.close()
 
 
 def autoo_o():
     move(FORWARD, 1600)
     drive_train.turn_for(LEFT, 90)
-    piston.open()
+    wing_piston.open()
     wait(100)
     move(FORWARD, 630)
     move(REVERSE, 500)
