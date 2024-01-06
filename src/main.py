@@ -60,6 +60,8 @@ wait(200)
 
 
 def driver_control():
+    last_a_pressing = False
+    flywheel_spin_forward = False
     while True:
         # drivetrain
         left.spin(
@@ -88,7 +90,11 @@ def driver_control():
 
         # fly wheel (TOGGLE IT. BUTTONS. ADD INTAKE VERSION)
 
-        if controller.buttonA.pressing():
+        if controller.buttonA.pressing() and not last_a_pressing:
+            flywheel_spin_forward = not flywheel_spin_forward
+        last_a_pressing = controller.buttonA.pressing()
+
+        if flywheel_spin_forward:
             flywheel.spin(DirectionType.FORWARD, 100, PERCENT)
         elif controller.buttonX.pressing():
             flywheel.spin(DirectionType.REVERSE, 50, PERCENT)
