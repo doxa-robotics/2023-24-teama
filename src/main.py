@@ -2,6 +2,10 @@ from vex import *
 import math
 
 DEBUG = True
+# How aggressive the PID should be when adjusting the driving.
+# This is multiplied by how far off the gyro is to get the speed adjustment.
+# TODO: Fine tweak this until it works well.
+PID_AGGRESSION_MODIFIER = 5
 
 
 def convert_damped_controller(val):
@@ -58,6 +62,7 @@ gyro = Gyro(brain.three_wire_port.b)
 drive_train = SmartDrive(left, right, gyro, 255, 393.7)
 
 wait(200)
+# TODO: we should calibrate the gyro here instead
 
 
 def driver_control():
@@ -65,19 +70,51 @@ def driver_control():
     flywheel_spin_forward = False
     last_a_pressing = False
     last_b_pressing = False
+    # The heading when we started driving straight.
+    initial_heading: vexnumber | None = None
+    # The last value of axis1.
+    last_controller_turn_pos: vexnumber | None = None
     while True:
         # drivetrain
-        left.spin(
-            DirectionType.FORWARD,
-            convert_damped_controller(controller.axis3.position(
-            )) + convert_damped_controller(controller.axis1.position()),
-            VelocityUnits.PERCENT)
+        axis1 = controller.axis1.position()  # Turning modifier
+        axis3 = controller.axis3.position()  # Speed
+        if axis3 == 0:
+            # Special PID straight driving
+            if last_controller_turn_pos != 0 or initial_heading == None:
+                # If the last position of the controller wasn't centered:
+                # Reset the current heading and try to maintain it.
+                initial_heading = gyro.heading()
+            current_heading = gyro.heading()
+            heading_difference = current_heading - initial_heading
+            desired_speed = convert_damped_controller(axis3)
+            # If heading_difference is positive, we're drifting right.
+            # If heading_difference is negative, we're drifitng left.
+            # If we're going right, we need to slow down the left motors, and
+            # vice versa.
+            left.spin(
+                DirectionType.FORWARD,
+                desired_speed - heading_difference*PID_AGGRESSION_MODIFIER,
+                VelocityUnits.PERCENT
+            )
+            right.spin(
+                DirectionType.FORWARD,
+                desired_speed + heading_difference*PID_AGGRESSION_MODIFIER,
+                VelocityUnits.PERCENT
+            )
+        else:
+            # Normal driving
+            left.spin(
+                DirectionType.FORWARD,
+                convert_damped_controller(
+                    axis3) + convert_damped_controller(axis1),
+                VelocityUnits.PERCENT)
 
-        right.spin(
-            DirectionType.FORWARD,
-            convert_damped_controller(controller.axis3.position(
-            )) - convert_damped_controller(controller.axis1.position()),
-            VelocityUnits.PERCENT)
+            right.spin(
+                DirectionType.FORWARD,
+                convert_damped_controller(
+                    axis3) - convert_damped_controller(axis1),
+                VelocityUnits.PERCENT)
+        last_controller_turn_pos = axis1
 
         wait(20)
 
