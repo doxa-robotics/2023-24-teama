@@ -179,13 +179,13 @@ def autooo_d2():
     drive_train.turn_for(LEFT, 90)
     move(FORWARD, 300)
     drive_train.turn_for(RIGHT, 90)
-    piston.open()
+    wing_piston.open()
     move(FORWARD, 300)
     drive_train.turn_for(RIGHT, 90, velocity=50)
     wait(100)
     move(FORWARD, 500)
     move(REVERSE, 250)
-    piston.close()
+    wing_piston.close()
 
 
 def autoo_o():
