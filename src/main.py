@@ -122,6 +122,20 @@ def autooo_d():
     piston.close()
 
 
+def autooo_d2():
+    move(FORWARD, 360)
+    drive_train.turn_for(LEFT, 90)
+    move(FORWARD, 300)
+    drive_train.turn_for(RIGHT, 90)
+    piston.open()
+    move(FORWARD, 300)
+    drive_train.turn_for(RIGHT, 90, velocity=50)
+    wait(100)
+    move(FORWARD, 500)
+    move(REVERSE, 250)
+    piston.close()
+
+
 def autoo_o():
     move(FORWARD, 1600)
     drive_train.turn_for(LEFT, 90)
