@@ -39,27 +39,29 @@ brain = Brain()
 
 controller = Controller()
 
+# Pistons
 wing_piston = Pneumatics(brain.three_wire_port.a)
 balance_piston = Pneumatics(brain.three_wire_port.c)
 
+# Motors
 fleft = Motor(Ports.PORT6)
 mleft = Motor(Ports.PORT9, True)
 bleft = Motor(Ports.PORT8, True)
+left = MotorGroup(fleft, mleft, bleft)
 
 fright = Motor(Ports.PORT1, True)
 mright = Motor(Ports.PORT2)
 bright = Motor(Ports.PORT5)
-
-lever = Motor(Ports.PORT4)
-
-flywheel = Motor(Ports.PORT20)
-
-left = MotorGroup(fleft, mleft, bleft)
 right = MotorGroup(fright, mright, bright)
 
 gyro = Gyro(brain.three_wire_port.b)
 
 drive_train = SmartDrive(left, right, gyro, 255, 393.7)
+
+lever = Motor(Ports.PORT4)
+
+flywheel = Motor(Ports.PORT20)
+
 
 wait(200)
 # TODO: we should calibrate the gyro here instead
@@ -198,7 +200,7 @@ def autoo_o():
 
 
 if DEBUG:
-    # autooo_d()
+    # autooo_()
     driver_control()
 else:
     Competition(driver_control, driver_control)
