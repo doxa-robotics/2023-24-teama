@@ -2,6 +2,10 @@ from vex import *
 import math
 
 DEBUG = True
+# How aggressive the PID should be when adjusting the driving.
+# This is multiplied by how far off the gyro is to get the speed adjustment.
+# TODO: Fine tweak this until it works well.
+PID_AGGRESSION_MODIFIER = 5
 
 
 def convert_damped_controller(val):
@@ -35,7 +39,8 @@ brain = Brain()
 
 controller = Controller()
 
-piston = Pneumatics(brain.three_wire_port.a)
+wing_piston = Pneumatics(brain.three_wire_port.a)
+balance_piston = Pneumatics(brain.three_wire_port.c)
 
 fleft = Motor(Ports.PORT6)
 mleft = Motor(Ports.PORT9, True)
@@ -57,30 +62,67 @@ gyro = Gyro(brain.three_wire_port.b)
 drive_train = SmartDrive(left, right, gyro, 255, 393.7)
 
 wait(200)
+# TODO: we should calibrate the gyro here instead
 
 
 def driver_control():
+    last_r2_pressing = False
+    flywheel_spin_forward = False
+    last_a_pressing = False
+    last_b_pressing = False
+    # The heading when we started driving straight.
+    initial_heading: vexnumber | None = None
+    # The last value of axis1.
+    last_controller_turn_pos: vexnumber | None = None
     while True:
         # drivetrain
-        left.spin(
-            DirectionType.FORWARD,
-            convert_damped_controller(controller.axis3.position(
-            )) + convert_damped_controller(controller.axis1.position()),
-            VelocityUnits.PERCENT)
+        axis1 = controller.axis1.position()  # Turning modifier
+        axis3 = controller.axis3.position()  # Speed
+        if axis3 == 0:
+            # Special PID straight driving
+            if last_controller_turn_pos != 0 or initial_heading == None:
+                # If the last position of the controller wasn't centered:
+                # Reset the current heading and try to maintain it.
+                initial_heading = gyro.heading()
+            current_heading = gyro.heading()
+            heading_difference = current_heading - initial_heading
+            desired_speed = convert_damped_controller(axis3)
+            # If heading_difference is positive, we're drifting right.
+            # If heading_difference is negative, we're drifitng left.
+            # If we're going right, we need to slow down the left motors, and
+            # vice versa.
+            left.spin(
+                DirectionType.FORWARD,
+                desired_speed - heading_difference*PID_AGGRESSION_MODIFIER,
+                VelocityUnits.PERCENT
+            )
+            right.spin(
+                DirectionType.FORWARD,
+                desired_speed + heading_difference*PID_AGGRESSION_MODIFIER,
+                VelocityUnits.PERCENT
+            )
+        else:
+            # Normal driving
+            left.spin(
+                DirectionType.FORWARD,
+                convert_damped_controller(
+                    axis3) + convert_damped_controller(axis1),
+                VelocityUnits.PERCENT)
 
-        right.spin(
-            DirectionType.FORWARD,
-            convert_damped_controller(controller.axis3.position(
-            )) - convert_damped_controller(controller.axis1.position()),
-            VelocityUnits.PERCENT)
+            right.spin(
+                DirectionType.FORWARD,
+                convert_damped_controller(
+                    axis3) - convert_damped_controller(axis1),
+                VelocityUnits.PERCENT)
+        last_controller_turn_pos = axis1
 
         wait(20)
 
         # lever
-        if controller.buttonUp.pressing():
+        if controller.buttonR1.pressing():
             lever.spin(DirectionType.FORWARD, 90, RPM)
 
-        elif controller.buttonDown.pressing():
+        elif controller.buttonL1.pressing():
             lever.spin(DirectionType.REVERSE, 90, RPM)
 
         else:
@@ -88,20 +130,30 @@ def driver_control():
 
         # fly wheel (TOGGLE IT. BUTTONS. ADD INTAKE VERSION)
 
-        if controller.buttonA.pressing():
+        if controller.buttonR2.pressing() and not last_r2_pressing:
+            flywheel_spin_forward = not flywheel_spin_forward
+        last_r2_pressing = controller.buttonA.pressing()
+
+        if flywheel_spin_forward:
             flywheel.spin(DirectionType.FORWARD, 100, PERCENT)
-        elif controller.buttonX.pressing():
+        elif controller.buttonL2.pressing():
             flywheel.spin(DirectionType.REVERSE, 50, PERCENT)
-        elif controller.buttonB.pressing():
-            flywheel.spin(DirectionType.FORWARD, 20, PERCENT)
         else:
             flywheel.stop()
 
         # Pneumatics
-        if controller.buttonR1.pressing():
-            piston.open()
-        elif controller.buttonR2.pressing():
-            piston.close()
+        if controller.buttonA.pressing() and not last_a_pressing:
+            if wing_piston.value():
+                wing_piston.close()
+            else:
+                wing_piston.open()
+        last_a_pressing = controller.buttonA.pressing()
+        if controller.buttonB.pressing() and not last_b_pressing:
+            if balance_piston.value():
+                balance_piston.close()
+            else:
+                balance_piston.open()
+        last_b_pressing = controller.buttonB.pressing()
 
 
 def move(direction: DirectionType.DirectionType, distance: int):
@@ -115,11 +167,11 @@ def autooo_d():
     drive_train.turn_for(RIGHT, 90)
     move(FORWARD, 300)
     drive_train.turn_for(RIGHT, 90)
-    piston.open()
+    wing_piston.open()
     wait(100)
     move(FORWARD, 450)
     move(REVERSE, 250)
-    piston.close()
+    wing_piston.close()
 
 
 def autooo_d2():
@@ -139,14 +191,14 @@ def autooo_d2():
 def autoo_o():
     move(FORWARD, 1600)
     drive_train.turn_for(LEFT, 90)
-    piston.open()
+    wing_piston.open()
     wait(100)
     move(FORWARD, 630)
     move(REVERSE, 500)
 
 
 if DEBUG:
-    autooo_d()
+    # autooo_d()
     driver_control()
 else:
     Competition(driver_control, driver_control)
