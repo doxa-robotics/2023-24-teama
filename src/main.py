@@ -198,6 +198,13 @@ def autoo_o():
     move(FORWARD, 630)
     move(REVERSE, 500)
 
+def autoo_o2():
+    move(FORWARD, )
+    drive_train.turn_for(RIGHT, )
+    wing_piston.open()
+    wait(100)
+    move(FORWARD, )
+    move(REVERSE, )
 
 if DEBUG:
     # autooo_()
