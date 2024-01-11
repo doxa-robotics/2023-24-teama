@@ -43,7 +43,7 @@ controller = Controller()
 wing_piston = Pneumatics(brain.three_wire_port.a)
 balance_piston = Pneumatics(brain.three_wire_port.h)
 
-# Motors
+# Motors (Done)
 fleft = Motor(Ports.PORT19, True)
 mleft = Motor(Ports.PORT18)
 bleft = Motor(Ports.PORT20)
@@ -84,11 +84,12 @@ def driver_control():
         axis3 = controller.axis3.position()  # Speed
         if axis3 == 0:
             # Special PID straight driving
+            heading = gyro.heading()
             if last_controller_turn_pos != 0 or initial_heading == None:
                 # If the last position of the controller wasn't centered:
                 # Reset the current heading and try to maintain it.
-                initial_heading = gyro.heading()
-            current_heading = gyro.heading()
+                initial_heading = heading
+            current_heading = heading
             heading_difference = current_heading - initial_heading
             desired_speed = convert_damped_controller(axis3)
             # If heading_difference is positive, we're drifting right.
