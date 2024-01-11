@@ -44,14 +44,14 @@ wing_piston = Pneumatics(brain.three_wire_port.a)
 balance_piston = Pneumatics(brain.three_wire_port.h)
 
 # Motors (Done)
-fleft = Motor(Ports.PORT19, True)
-mleft = Motor(Ports.PORT18)
-bleft = Motor(Ports.PORT20)
+fleft = Motor(Ports.PORT19)
+mleft = Motor(Ports.PORT18, True)
+bleft = Motor(Ports.PORT20, True)
 left = MotorGroup(fleft, mleft, bleft)
 
 fright = Motor(Ports.PORT7)
-mright = Motor(Ports.PORT8, True)
-bright = Motor(Ports.PORT10, True)
+mright = Motor(Ports.PORT6, True)
+bright = Motor(Ports.PORT9)
 right = MotorGroup(fright, mright, bright)
 
 gyro = Gyro(brain.three_wire_port.b)
@@ -59,7 +59,7 @@ gyro = Gyro(brain.three_wire_port.b)
 drive_train = SmartDrive(left, right, gyro, 255, 393.7)
 
 # DONE
-lever = Motor(Ports.PORT9)
+lever = Motor(Ports.PORT8)
 
 # DONE
 flywheel = Motor(Ports.PORT12)
@@ -213,5 +213,7 @@ def autoo_o2():
 
 if DEBUG:
     driver_control()
+
+
 else:
     Competition(driver_control, driver_control)
