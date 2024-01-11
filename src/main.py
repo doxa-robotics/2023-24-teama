@@ -40,8 +40,8 @@ brain = Brain()
 controller = Controller()
 
 # Pistons
-wing_piston = Pneumatics(brain.three_wire_port.a)
-balance_piston = Pneumatics(brain.three_wire_port.c)
+wing_piston = Pneumatics(brain.three_wire_port.)
+balance_piston = Pneumatics(brain.three_wire_port.)
 
 # Motors
 fleft = Motor(Ports.PORT6)
@@ -50,17 +50,17 @@ bleft = Motor(Ports.PORT8, True)
 left = MotorGroup(fleft, mleft, bleft)
 
 fright = Motor(Ports.PORT1, True)
-mright = Motor(Ports.PORT2)
-bright = Motor(Ports.PORT5)
+mright = Motor(Ports.PORT10)
+bright = Motor(Ports.PORT9)
 right = MotorGroup(fright, mright, bright)
 
 gyro = Gyro(brain.three_wire_port.b)
 
 drive_train = SmartDrive(left, right, gyro, 255, 393.7)
 
-lever = Motor(Ports.PORT4)
+lever = Motor(Ports.PORT10)
 
-flywheel = Motor(Ports.PORT20)
+flywheel = Motor(Ports.PORT)
 
 
 wait(200)
