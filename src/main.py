@@ -211,8 +211,6 @@ def autoo_o2():
 
 
 if DEBUG:
-    lever.spin(DirectionType.REVERSE, 90, RPM)
-    right.spin(DirectionType.REVERSE, 90, RPM)
-
+    driver_control()
 else:
     Competition(driver_control, driver_control)
