@@ -39,9 +39,9 @@ brain = Brain()
 
 controller = Controller()
 
-# Pistons
-wing_piston = Pneumatics(brain.three_wire_port.)
-balance_piston = Pneumatics(brain.three_wire_port.)
+# Pistons (DONE)
+wing_piston = Pneumatics(brain.three_wire_port.a)
+balance_piston = Pneumatics(brain.three_wire_port.h)
 
 # Motors
 fleft = Motor(Ports.PORT6)
@@ -58,9 +58,11 @@ gyro = Gyro(brain.three_wire_port.b)
 
 drive_train = SmartDrive(left, right, gyro, 255, 393.7)
 
-lever = Motor(Ports.PORT10)
+# DONE
+lever = Motor(Ports.PORT9)
 
-flywheel = Motor(Ports.PORT)
+# DONE
+flywheel = Motor(Ports.PORT12)
 
 
 wait(200)
@@ -198,6 +200,7 @@ def autoo_o():
     move(FORWARD, 630)
     move(REVERSE, 500)
 
+
 def autoo_o2():
     move(FORWARD, )
     drive_train.turn_for(RIGHT, )
@@ -205,6 +208,7 @@ def autoo_o2():
     wait(100)
     move(FORWARD, )
     move(REVERSE, )
+
 
 if DEBUG:
     # autooo_()
