@@ -80,9 +80,9 @@ def driver_control():
     last_controller_turn_pos: vexnumber | None = None
     while True:
         # drivetrain
-        axis1 = controller.axis1.position()  # Turning modifier
+        axis1 = controller.axis1.position()  # Turning
         axis3 = controller.axis3.position()  # Speed
-        if axis3 == 0:
+        if axis1 == 0:
             # Special PID straight driving
             heading = gyro.heading()
             if last_controller_turn_pos != 0 or initial_heading == None:
@@ -90,7 +90,7 @@ def driver_control():
                 # Reset the current heading and try to maintain it.
                 initial_heading = heading
             current_heading = heading
-            heading_difference = current_heading - initial_heading
+            heading_difference = initial_heading - current_heading
             desired_speed = convert_damped_controller(axis3)
             # If heading_difference is positive, we're drifting right.
             # If heading_difference is negative, we're drifitng left.
@@ -137,7 +137,7 @@ def driver_control():
 
         if controller.buttonR2.pressing() and not last_r2_pressing:
             flywheel_spin_forward = not flywheel_spin_forward
-        last_r2_pressing = controller.buttonA.pressing()
+        last_r2_pressing = controller.buttonR2.pressing()
 
         if flywheel_spin_forward:
             flywheel.spin(DirectionType.FORWARD, 100, PERCENT)
@@ -213,7 +213,5 @@ def autoo_o2():
 
 if DEBUG:
     driver_control()
-
-
 else:
     Competition(driver_control, driver_control)
