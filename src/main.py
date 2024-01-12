@@ -56,7 +56,7 @@ right = MotorGroup(fright, mright, bright)
 
 gyro = Gyro(brain.three_wire_port.b)
 
-drive_train = SmartDrive(left, right, gyro, 255, 393.7)
+drive_train = SmartDrive(left, right, gyro, 460, 393.7)
 
 # DONE
 lever = Motor(Ports.PORT8)
