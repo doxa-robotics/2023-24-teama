@@ -166,52 +166,32 @@ def move(direction: DirectionType.DirectionType, distance: int):
 
 
 def autooo_d():
-    move(FORWARD, 500)
+    move(FORWARD, 700)
     drive_train.turn_for(LEFT, 90)
-    move(FORWARD, 270)
-    drive_train.turn_for(RIGHT, 90)
-    move(FORWARD, 300)
-    drive_train.turn_for(RIGHT, 90)
-    wing_piston.open()
-    wait(100)
-    move(FORWARD, 450)
-    move(REVERSE, 250)
-    wing_piston.close()
-
-
-def autooo_d2():
-    move(FORWARD, 360)
-    drive_train.turn_for(LEFT, 90)
-    move(FORWARD, 300)
-    drive_train.turn_for(RIGHT, 90)
-    wing_piston.open()
-    move(FORWARD, 300)
-    drive_train.turn_for(RIGHT, 90, velocity=50)
-    wait(100)
     move(FORWARD, 500)
+    drive_train.turn_for(RIGHT, 90)
+    lever.spin(DirectionType.FORWARD, 20, RPM)
+    flywheel.spin(DirectionType.REVERSE, 50, PERCENT)
+    move(FORWARD, 700)
+    drive_train.turn_for(RIGHT, 92)
+    wait(10)
+    move(FORWARD, 630)
     move(REVERSE, 250)
-    wing_piston.close()
+    flywheel.spin(DirectionType.FORWARD, 50, PERCENT)
+    flywheel.stop()
+    lever.stop()
 
 
 def autoo_o():
-    move(FORWARD, 1600)
+    move(FORWARD, 1700)
     drive_train.turn_for(LEFT, 90)
     wing_piston.open()
     wait(100)
     move(FORWARD, 630)
-    move(REVERSE, 500)
-
-
-def autoo_o2():
-    move(FORWARD, )
-    drive_train.turn_for(RIGHT, )
-    wing_piston.open()
-    wait(100)
-    move(FORWARD, )
-    move(REVERSE, )
+    move(REVERSE, 400)
 
 
 if DEBUG:
-    driver_control()
+    autooo_d()
 else:
     Competition(driver_control, driver_control)
