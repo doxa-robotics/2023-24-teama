@@ -168,10 +168,11 @@ def move(direction: DirectionType.DirectionType, distance: int):
 def autooo_d():
     move(FORWARD, 700)
     drive_train.turn_for(LEFT, 90)
-    move(FORWARD, 500)
+    move(FORWARD, 650)
     drive_train.turn_for(RIGHT, 90)
     lever.spin(DirectionType.FORWARD, 20, RPM)
-    flywheel.spin(DirectionType.REVERSE, 50, PERCENT)
+    lever.stop()
+    flywheel.spin(DirectionType.REVERSE, 20, PERCENT)
     move(FORWARD, 700)
     drive_train.turn_for(RIGHT, 92)
     wait(10)
@@ -179,7 +180,6 @@ def autooo_d():
     move(REVERSE, 250)
     flywheel.spin(DirectionType.FORWARD, 50, PERCENT)
     flywheel.stop()
-    lever.stop()
 
 
 def autoo_o():
