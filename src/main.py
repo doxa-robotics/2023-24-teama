@@ -56,7 +56,7 @@ right = MotorGroup(fright, mright, bright)
 
 gyro = Gyro(brain.three_wire_port.b)
 
-drive_train = SmartDrive(left, right, gyro, 460, 393.7)
+drive_train = SmartDrive(left, right, gyro, 460)
 
 # DONE
 lever = Motor(Ports.PORT8)
@@ -172,7 +172,7 @@ def autooo_d():
     drive_train.turn_for(RIGHT, 90)
     lever.spin(DirectionType.FORWARD, 20, RPM)
     flywheel.spin(DirectionType.REVERSE, 50, PERCENT)
-    move(FORWARD, 700)
+    move(FORWARD, 720)
     drive_train.turn_for(RIGHT, 92)
     wait(10)
     move(FORWARD, 630)
