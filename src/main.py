@@ -82,44 +82,18 @@ def driver_control():
         # drivetrain
         axis1 = controller.axis1.position()  # Turning
         axis3 = controller.axis3.position()  # Speed
-        if axis1 == 0:
-            # Special PID straight driving
-            heading = gyro.heading()
-            if last_controller_turn_pos != 0 or initial_heading == None:
-                # If the last position of the controller wasn't centered:
-                # Reset the current heading and try to maintain it.
-                initial_heading = heading
-            current_heading = heading
-            heading_difference = initial_heading - current_heading
-            desired_speed = convert_damped_controller(axis3)
-            # If heading_difference is positive, we're drifting right.
-            # If heading_difference is negative, we're drifitng left.
-            # If we're going right, we need to slow down the left motors, and
-            # vice versa.
-            left.spin(
-                DirectionType.FORWARD,
-                desired_speed - heading_difference*PID_AGGRESSION_MODIFIER,
-                VelocityUnits.PERCENT
-            )
-            right.spin(
-                DirectionType.FORWARD,
-                desired_speed + heading_difference*PID_AGGRESSION_MODIFIER,
-                VelocityUnits.PERCENT
-            )
-        else:
-            # Normal driving
-            left.spin(
-                DirectionType.FORWARD,
-                convert_damped_controller(
-                    axis3) + convert_damped_controller(axis1),
-                VelocityUnits.PERCENT)
+        # Normal driving
+        left.spin(
+            DirectionType.FORWARD,
+            convert_damped_controller(
+                axis3) + convert_damped_controller(axis1),
+            VelocityUnits.PERCENT)
 
-            right.spin(
-                DirectionType.FORWARD,
-                convert_damped_controller(
-                    axis3) - convert_damped_controller(axis1),
-                VelocityUnits.PERCENT)
-        last_controller_turn_pos = axis1
+        right.spin(
+            DirectionType.FORWARD,
+            convert_damped_controller(
+                axis3) - convert_damped_controller(axis1),
+            VelocityUnits.PERCENT)
 
         wait(20)
 
