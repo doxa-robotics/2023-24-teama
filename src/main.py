@@ -1,7 +1,12 @@
 from vex import *
 import math
 
-DEBUG = True
+DEBUG = False
+# d1: Defence, push into goal
+# d2: None
+# o1:  match load offsense, touch bar
+# o2: don't touch bar
+AUTON_ROUTINE = "o1"
 # How aggressive the PID should be when adjusting the driving.
 # This is multiplied by how far off the gyro is to get the speed adjustment.
 # TODO: Fine tweak this until it works well.
@@ -151,7 +156,7 @@ def autooo_d():
     drive_train.turn_for(RIGHT, 92)
     move(FORWARD, 650)
     # wing_piston.open()
-    move(REVERSE, 250)
+    move(REVERSE, 650)
     wait(700)
     # wing_piston.close()
     flywheel.stop()
@@ -191,8 +196,17 @@ def autoo_o2():
     move(REVERSE, 100)
 
 
+def auton():
+    """ Main auton code. Put calls to functions here. """
+    if AUTON_ROUTINE == "o1":
+        autoo_o()
+    elif AUTON_ROUTINE == "o2":
+        autoo_o2()
+    elif AUTON_ROUTINE == "d1":
+        autooo_d()
+
+
 if DEBUG:
     driver_control()
-
 else:
-    Competition(driver_control, driver_control)
+    Competition(driver_control, auton)
