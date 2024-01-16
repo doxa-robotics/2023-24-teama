@@ -57,7 +57,7 @@ right = MotorGroup(fright, mright, bright)
 gyro = Gyro(brain.three_wire_port.b)
 
 drive_train = SmartDrive(left, right, gyro, 460)
-
+drive_train.set_timeout(4000)
 # DONE
 lever = Motor(Ports.PORT8)
 
@@ -173,34 +173,36 @@ def autooo_d():
     move(FORWARD, 600)
     drive_train.turn_for(RIGHT, 92)
     move(FORWARD, 650)
-    #wing_piston.open()
+    # wing_piston.open()
     move(REVERSE, 250)
     wait(700)
-    #wing_piston.close()
+    # wing_piston.close()
     flywheel.stop()
 
 
 def autoo_o():
-    move(FORWARD, 1400)
-    drive_train.turn_for(RIGHT, 90)
-    wing_piston.open()
-    wait(100)
-    move(FORWARD, 650)
-    move(REVERSE, 400)
-
-def autoo_o2():
-
     move(FORWARD, 50)
     balance_piston.open()
-    move(F)
-    wait(500)
-    balance_piston.close()
-    move(FORWARD, 50)
+    move(FORWARD, 150)
     drive_train.turn_for(RIGHT, 45)
-    move(FORWARD, 1000)
-    move(REVERSE, 1000)
+    balance_piston.close()
+    drive_train.turn_for(LEFT, 45)
+    move(FORWARD, 290)
+    drive_train.turn_for(RIGHT, 45)
+    move(FORWARD, 330)
+    move(REVERSE, 100)
+    drive_train.turn_for(LEFT, 30)
+    move(REVERSE, 600)
+    lever.spin(DirectionType.FORWARD, 50, RPM)
+    move(REVERSE, 600)
+    move(FORWARD, 10)
+    drive_train.turn_for(LEFT, 90)
+    move(REVERSE, 870)
+    lever.stop()
+
 
 if DEBUG:
-    autoo_o2()
+    autoo_o()
+
 else:
     Competition(driver_control, driver_control)
