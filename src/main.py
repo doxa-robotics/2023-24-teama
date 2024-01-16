@@ -201,8 +201,21 @@ def autoo_o():
     lever.stop()
 
 
+def autoo_o2():
+    move(FORWARD, 50)
+    balance_piston.open()
+    move(FORWARD, 150)
+    drive_train.turn_for(RIGHT, 45)
+    balance_piston.close()
+    drive_train.turn_for(LEFT, 45)
+    move(FORWARD, 290)
+    drive_train.turn_for(RIGHT, 45)
+    move(FORWARD, 330)
+    move(REVERSE, 100)
+
+
 if DEBUG:
-    autoo_o()
+    driver_control()
 
 else:
     Competition(driver_control, driver_control)
