@@ -144,28 +144,16 @@ def move(direction: DirectionType.DirectionType, distance: int):
     drive_train.drive_for(direction, distance, MM, velocity=50)
 
 
-def autooo_o():
-    move(FORWARD, 930)
-    drive_train.turn_for(LEFT, 90)
-    move(FORWARD, 600)
-    drive_train.turn_for(RIGHT, 90)
-    lever.spin(DirectionType.FORWARD, 20, RPM)
-    lever.stop()
-    flywheel.spin(DirectionType.REVERSE, 20, PERCENT)
-    move(FORWARD, 700)
-    drive_train.turn_for(RIGHT, 92)
-    move(FORWARD, 650)
-    # wing_piston.open()
-    move(REVERSE, 650)
-    wait(700)
-    # wing_piston.close()
-    flywheel.stop()
-
-
-# start:       (rebecca)
+# start: along the side      (rebecca)
 def autoo_o():
-    move(FORWARD, 50)
-    balance_piston.open()
+    move(FORWARD, 680)
+    drive_train.turn_for(LEFT, 90)
+    move(FORWARD, 340)
+    drive_train.turn_for(RIGHT, 90)
+    move(FORWARD, 880)
+    drive_train.turn_for(RIGHT, 90)
+    move(FORWARD, 800)
+    wing_piston.open()
 
 
 # start:
