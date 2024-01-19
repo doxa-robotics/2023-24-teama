@@ -180,17 +180,22 @@ def autoo_o2():
 
 # start:
 def autoo_d():
-    move(FORWARD, 50)
+    move(FORWARD, 30)
     balance_piston.open()
-    move(FORWARD, 150)
-    drive_train.turn_for(RIGHT, 45)
+    drive_train.turn_for(RIGHT, 360)
+    move(FORWARD, 50)
     balance_piston.close()
-    drive_train.turn_for(LEFT, 45)
-    move(FORWARD, 290)
-    drive_train.turn_for(RIGHT, 45)
-    move(FORWARD, 330)
+    move(REVERSE, 10)
+    drive_train.turn_for(LEFT, 90)
+    move(FORWARD, 20)
+    drive_train.turn_for(RIGHT, 90)
+    move(FORWARD, 70)
     move(REVERSE, 100)
-
+    drive_train.turn_for(RIGHT, 90)
+    move(FORWARD, 30)
+    drive_train.turn_for(LEFT, 90)
+    move(FORWARD, 100)
+    lever.spin_to_position(DirectionType.REVERSE, 90, RPM)
 
 def auton():
     """ Main auton code. Put calls to functions here. """
