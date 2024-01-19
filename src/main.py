@@ -141,11 +141,11 @@ def driver_control():
 
 
 def move(direction: DirectionType.DirectionType, distance: int):
-    drive_train.drive_for(direction, distance, MM, velocity=50)
+    drive_train.drive_for(direction, distance, MM, velocity=70)
 
 
 # start: along the side      (rebecca)
-def autoo_o():
+def autoo_o1():
     move(FORWARD, 680)
     drive_train.turn_for(LEFT, 90)
     move(FORWARD, 340)
@@ -153,7 +153,29 @@ def autoo_o():
     move(FORWARD, 880)
     drive_train.turn_for(RIGHT, 90)
     move(FORWARD, 800)
+    drive_train.turn_for(RIGHT, 90)
     wing_piston.open()
+    move(FORWARD, 700)
+    move(REVERSE, 100)
+
+
+def autoo_o2():
+    move(FORWARD, 680)
+    drive_train.turn_for(LEFT, 90)
+    move(FORWARD, 340)
+    drive_train.turn_for(RIGHT, 90)
+    move(FORWARD, 880)
+    drive_train.turn_for(RIGHT, 90)
+    move(FORWARD, 800)
+    drive_train.turn_for(RIGHT, 90)
+    wing_piston.open()
+    move(FORWARD, 700)
+    move(REVERSE, 200)
+    drive_train.turn_for(RIGHT, 90)
+    lever.spin(DirectionType.FORWARD, 20, RPM)
+    move(FORWARD, 1700)
+    drive_train.turn_for(RIGHT, 90)
+    move(FORWARD, 720)
 
 
 # start:
@@ -173,8 +195,10 @@ def autoo_d():
 def auton():
     """ Main auton code. Put calls to functions here. """
     if AUTON_ROUTINE == "o1":
-        autoo_o()
-    elif AUTON_ROUTINE == "o2":
+        autoo_o1()
+    elif AUTON_ROUTINE == "2":
+        autoo_o2()
+    elif AUTON_ROUTINE == "d2":
         autoo_d()
 
 
