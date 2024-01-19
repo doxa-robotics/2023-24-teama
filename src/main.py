@@ -144,7 +144,7 @@ def move(direction: DirectionType.DirectionType, distance: int):
     drive_train.drive_for(direction, distance, MM, velocity=50)
 
 
-def autooo_d():
+def autooo_o():
     move(FORWARD, 930)
     drive_train.turn_for(LEFT, 90)
     move(FORWARD, 600)
@@ -162,28 +162,14 @@ def autooo_d():
     flywheel.stop()
 
 
+# start:       (rebecca)
 def autoo_o():
     move(FORWARD, 50)
     balance_piston.open()
-    move(FORWARD, 150)
-    drive_train.turn_for(RIGHT, 45)
-    balance_piston.close()
-    drive_train.turn_for(LEFT, 45)
-    move(FORWARD, 290)
-    drive_train.turn_for(RIGHT, 45)
-    move(FORWARD, 330)
-    move(REVERSE, 100)
-    drive_train.turn_for(LEFT, 30)
-    move(REVERSE, 600)
-    lever.spin(DirectionType.FORWARD, 50, RPM)
-    move(REVERSE, 600)
-    move(FORWARD, 10)
-    drive_train.turn_for(LEFT, 90)
-    move(REVERSE, 870)
-    lever.stop()
 
 
-def autoo_o2():
+# start:
+def autoo_d():
     move(FORWARD, 50)
     balance_piston.open()
     move(FORWARD, 150)
@@ -201,9 +187,7 @@ def auton():
     if AUTON_ROUTINE == "o1":
         autoo_o()
     elif AUTON_ROUTINE == "o2":
-        autoo_o2()
-    elif AUTON_ROUTINE == "d1":
-        autooo_d()
+        autoo_d()
 
 
 if DEBUG:
