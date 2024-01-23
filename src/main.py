@@ -151,7 +151,9 @@ def autoo_o1():
     move(FORWARD, 800)
     drive_train.turn_for(RIGHT, 90)
     wing_piston.open()
-    move(FORWARD, 700)
+    move(FORWARD, 600)
+    lever.spin(DirectionType.REVERSE, 90, RPM)
+    move(FORWARD, 100)
     move(REVERSE, 100)
 
 
@@ -165,7 +167,9 @@ def autoo_o2():
     move(FORWARD, 800)
     drive_train.turn_for(RIGHT, 90)
     wing_piston.open()
-    move(FORWARD, 700)
+    move(FORWARD, 600)
+    lever.spin(DirectionType.REVERSE, 90, RPM)
+    move(FORWARD, 100)
     move(REVERSE, 200)
     drive_train.turn_for(RIGHT, 90)
     lever.spin(DirectionType.FORWARD, 20, RPM)
