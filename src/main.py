@@ -11,6 +11,10 @@ AUTON_ROUTINE = "o1"
 # This is multiplied by how far off the gyro is to get the speed adjustment.
 # TODO: Fine tweak this until it works well.
 PID_AGGRESSION_MODIFIER = 5
+# Distance between wheel centers, mm
+TRACK_WIDTH = 305
+# Distance robot moves in one motor turn, mm
+TRACK_DISTANCE = 460
 
 
 def convert_damped_controller(val):
@@ -19,25 +23,6 @@ def convert_damped_controller(val):
         return -value
     else:
         return value
-
-
-class PneumaticsGroup:
-    members: list[Pneumatics]
-    value: bool
-
-    def __init__(self, *args: Pneumatics):
-        self.members = list(args)
-        self.value = False
-
-    def open(self):
-        self.value = True
-        for member in self.members:
-            member.open()
-
-    def close(self):
-        self.value = False
-        for member in self.members:
-            member.close()
 
 
 brain = Brain()
@@ -61,7 +46,7 @@ right = MotorGroup(fright, mright, bright)
 
 gyro = Gyro(brain.three_wire_port.b)
 
-drive_train = SmartDrive(left, right, gyro, 460)
+drive_train = SmartDrive(left, right, gyro, TRACK_DISTANCE)
 drive_train.set_timeout(4000)
 # DONE
 lever = Motor(Ports.PORT8)
@@ -141,11 +126,22 @@ def driver_control():
 
 
 def move(direction: DirectionType.DirectionType, distance: int):
-    drive_train.drive_for(direction, distance, MM, velocity=50)
+    drive_train.drive_for(direction, distance, MM, velocity=70)
+
+
+def arced_turn(direction: DirectionType.DirectionType, turn_direction: TurnType.TurnType, inner_radius: int, angle: int):
+    right_distance = (math.pi * inner_radius * angle) / 180
+    left_distance = right_distance + (math.pi * TRACK_WIDTH * angle)
+    if turn_direction == RIGHT:
+        left.spin_for(direction, left_distance / TRACK_DISTANCE, TURNS)
+        right.spin_for(direction, right_distance / TRACK_DISTANCE, TURNS)
+    else:
+        left.spin_for(direction, right_distance / TRACK_DISTANCE, TURNS)
+        right.spin_for(direction, left_distance / TRACK_DISTANCE, TURNS)
 
 
 # start: along the side      (rebecca)
-def autoo_o():
+def autoo_o1():
     move(FORWARD, 680)
     drive_train.turn_for(LEFT, 90)
     move(FORWARD, 340)
@@ -153,7 +149,29 @@ def autoo_o():
     move(FORWARD, 880)
     drive_train.turn_for(RIGHT, 90)
     move(FORWARD, 800)
+    drive_train.turn_for(RIGHT, 90)
     wing_piston.open()
+    move(FORWARD, 700)
+    move(REVERSE, 100)
+
+
+def autoo_o2():
+    move(FORWARD, 680)
+    drive_train.turn_for(LEFT, 90)
+    move(FORWARD, 340)
+    drive_train.turn_for(RIGHT, 90)
+    move(FORWARD, 880)
+    drive_train.turn_for(RIGHT, 90)
+    move(FORWARD, 800)
+    drive_train.turn_for(RIGHT, 90)
+    wing_piston.open()
+    move(FORWARD, 700)
+    move(REVERSE, 200)
+    drive_train.turn_for(RIGHT, 90)
+    lever.spin(DirectionType.FORWARD, 20, RPM)
+    move(FORWARD, 1700)
+    drive_train.turn_for(RIGHT, 90)
+    move(FORWARD, 720)
 
 
 # start:
@@ -175,12 +193,17 @@ def autoo_d():
     move(FORWARD, 100)
     lever.spin_to_position(DirectionType.REVERSE, 90, RPM)
 
+
 def auton():
     """ Main auton code. Put calls to functions here. """
     if AUTON_ROUTINE == "o1":
-        autoo_o()
-    elif AUTON_ROUTINE == "o2":
+        autoo_o1()
+    elif AUTON_ROUTINE == "2":
+        autoo_o2()
+    elif AUTON_ROUTINE == "d2":
         autoo_d()
+    elif AUTON_ROUTINE == "test":
+        arced_turn(FORWARD, RIGHT, 10, 45)
 
 
 if DEBUG:
