@@ -6,7 +6,7 @@ DEBUG = False
 # d2: None
 # o1:  match load offsense, touch bar
 # o2: don't touch bar
-AUTON_ROUTINE = "test"
+AUTON_ROUTINE = "o1"
 # How aggressive the PID should be when adjusting the driving.
 # This is multiplied by how far off the gyro is to get the speed adjustment.
 # TODO: Fine tweak this until it works well.
@@ -131,13 +131,18 @@ def move(direction: DirectionType.DirectionType, distance: int):
 
 def arced_turn(direction: DirectionType.DirectionType, turn_direction: TurnType.TurnType, inner_radius: int, angle: int):
     right_distance = (math.pi * inner_radius * angle) / 180
-    left_distance = right_distance + (math.pi * TRACK_WIDTH * angle)
+    left_distance = right_distance + (math.pi * TRACK_WIDTH * angle) / 180
+    velocity = 50
     if turn_direction == RIGHT:
-        left.spin_for(direction, left_distance / TRACK_DISTANCE, TURNS)
-        right.spin_for(direction, right_distance / TRACK_DISTANCE, TURNS)
+        left.spin_for(direction, left_distance / TRACK_DISTANCE,
+                      TURNS, velocity, PERCENT, wait=False)
+        right.spin_for(direction, right_distance / TRACK_DISTANCE,
+                       TURNS, velocity * (left_distance / right_distance), PERCENT)
     else:
-        left.spin_for(direction, right_distance / TRACK_DISTANCE, TURNS)
-        right.spin_for(direction, left_distance / TRACK_DISTANCE, TURNS)
+        left.spin_for(direction, right_distance / TRACK_DISTANCE, TURNS,
+                      velocity * (left_distance / right_distance), PERCENT, wait=False)
+        right.spin_for(direction, left_distance /
+                       TRACK_DISTANCE, TURNS, velocity, PERCENT)
 
 
 # start: along the side      (rebecca)
@@ -151,7 +156,7 @@ def autoo_o1():
     move(FORWARD, 800)
     drive_train.turn_for(RIGHT, 90)
     wing_piston.open()
-    move(FORWARD, 600)
+    move(FORWARD, 550)
     lever.spin(DirectionType.REVERSE, 90, RPM)
     move(FORWARD, 100)
     move(REVERSE, 100)
@@ -167,7 +172,7 @@ def autoo_o2():
     move(FORWARD, 800)
     drive_train.turn_for(RIGHT, 90)
     wing_piston.open()
-    move(FORWARD, 600)
+    move(FORWARD, 550)
     lever.spin(DirectionType.REVERSE, 90, RPM)
     move(FORWARD, 100)
     move(REVERSE, 200)
