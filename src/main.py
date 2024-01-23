@@ -3,10 +3,11 @@ import math
 from vex import *
 
 DEBUG = False
-# d1: Defense, push into goal
-# d2: None
-# o1:  match load offense, touch bar
-# o2: don't touch bar
+#     d1: Defense, push into goal
+#     d2: None
+#     o1:  match load offense, touch bar
+#     o2: don't touch bar
+# skills: 60s *auton* skills
 AUTON_ROUTINE = "o1"
 # How aggressive the PID should be when adjusting the driving.
 # This is multiplied by how far off the gyro is to get the speed adjustment.
@@ -203,6 +204,44 @@ def autoo_d():
     # lever.spin_to_position(DirectionType.REVERSE, 90, RPM)
 
 
+def auton_skills():
+    """ The auton routine to run during skills.
+
+    Starts on defense: start (e.g., bottom right looking at alliance goal)
+    """
+    initial_heading = drive_train.heading()
+    # towards the alliance goal
+    north = initial_heading + 45
+    flywheel.spin(DirectionType.FORWARD, 100, PERCENT)
+    # TODO: change this to 40000 after testing
+    # 40 seconds wait for preloading
+    wait(2000)
+    move(FORWARD, 1000)
+    wing_piston.open()
+    drive_train.turn_to_heading(north - 90)  # west
+    move(FORWARD, 800)
+    arced_turn(FORWARD, RIGHT, 0, 90)
+    # should already be facing north, but to check
+    drive_train.turn_to_heading(north)
+    move(REVERSE, 600)
+    # Crossing the middle
+    drive_train.drive_for(FORWARD, 1000, MM, velocity=100, units_v=PERCENT)
+    arced_turn(FORWARD, RIGHT, 400, 45)
+    move(FORWARD, 1000)
+    drive_train.turn_to_heading(north)
+    wing_piston.close()
+    # moving out of the goal
+    move(REVERSE, 1100)
+    drive_train.turn_to_heading(north+45)  # north-east
+    wing_piston.open()
+    move(FORWARD, 500)
+    # could use arced turn
+    drive_train.turn_to_heading(north)
+    move(FORWARD, 1200)
+    wing_piston.close()
+    move(REVERSE, 600)
+
+
 def auton():
     """ Main auton code. Put calls to functions here. """
     if AUTON_ROUTINE == "o1":
@@ -211,6 +250,8 @@ def auton():
         autoo_o2()
     elif AUTON_ROUTINE == "d2":
         autoo_d()
+    elif AUTON_ROUTINE == "skills":
+        auton_skills()
     elif AUTON_ROUTINE == "test":
         arced_turn(FORWARD, RIGHT, 10, 45)
 
