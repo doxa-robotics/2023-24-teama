@@ -6,7 +6,7 @@ DEBUG = False
 # d2: None
 # o1:  match load offsense, touch bar
 # o2: don't touch bar
-AUTON_ROUTINE = "o1"
+AUTON_ROUTINE = "test"
 # How aggressive the PID should be when adjusting the driving.
 # This is multiplied by how far off the gyro is to get the speed adjustment.
 # TODO: Fine tweak this until it works well.
