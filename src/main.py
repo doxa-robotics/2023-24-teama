@@ -24,26 +24,6 @@ def convert_damped_controller(val):
     else:
         return value
 
-
-class PneumaticsGroup:
-    members: list[Pneumatics]
-    value: bool
-
-    def __init__(self, *args: Pneumatics):
-        self.members = list(args)
-        self.value = False
-
-    def open(self):
-        self.value = True
-        for member in self.members:
-            member.open()
-
-    def close(self):
-        self.value = False
-        for member in self.members:
-            member.close()
-
-
 brain = Brain()
 
 controller = Controller()
@@ -219,6 +199,8 @@ def auton():
         autoo_o2()
     elif AUTON_ROUTINE == "d2":
         autoo_d()
+    elif AUTON_ROUTINE == "test":
+        arced_turn(FORWARD, RIGHT, 10, 45)
 
 
 if DEBUG:
