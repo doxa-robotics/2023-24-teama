@@ -1,10 +1,11 @@
-from vex import *
 import math
 
+from vex import *
+
 DEBUG = False
-# d1: Defence, push into goal
+# d1: Defense, push into goal
 # d2: None
-# o1:  match load offsense, touch bar
+# o1:  match load offense, touch bar
 # o2: don't touch bar
 AUTON_ROUTINE = "o1"
 # How aggressive the PID should be when adjusting the driving.
@@ -64,10 +65,6 @@ def driver_control():
     flywheel_spin_forward = False
     last_a_pressing = False
     last_b_pressing = False
-    # The heading when we started driving straight.
-    initial_heading: vexnumber | None = None
-    # The last value of axis1.
-    last_controller_turn_pos: vexnumber | None = None
     while True:
         # drivetrain
         axis1 = controller.axis1.position()  # Turning
@@ -203,7 +200,7 @@ def autoo_d():
     move(FORWARD, 250)
     drive_train.turn_for(LEFT, 90)
     move(FORWARD, 250)
-    lever.spin_to_position(DirectionType.REVERSE, 90, RPM)
+    # lever.spin_to_position(DirectionType.REVERSE, 90, RPM)
 
 
 def auton():
