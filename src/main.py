@@ -8,11 +8,9 @@ DEBUG = False
 #     o1:  match load offense, touch bar
 #     o2: don't touch bar
 # skills: 60s *auton* skills
+#   none: no-op, so do nothing during auton period
 AUTON_ROUTINE = "o1"
-# How aggressive the PID should be when adjusting the driving.
-# This is multiplied by how far off the gyro is to get the speed adjustment.
-# TODO: Fine tweak this until it works well.
-PID_AGGRESSION_MODIFIER = 5
+
 # Distance between wheel centers, mm
 TRACK_WIDTH = 305
 # Distance robot moves in one motor turn, mm
