@@ -11,6 +11,10 @@ AUTON_ROUTINE = "o1"
 # This is multiplied by how far off the gyro is to get the speed adjustment.
 # TODO: Fine tweak this until it works well.
 PID_AGGRESSION_MODIFIER = 5
+# Distance between wheel centers, mm
+TRACK_WIDTH = 305
+# Distance robot moves in one motor turn, mm
+TRACK_DISTANCE = 460
 
 
 def convert_damped_controller(val):
@@ -61,7 +65,7 @@ right = MotorGroup(fright, mright, bright)
 
 gyro = Gyro(brain.three_wire_port.b)
 
-drive_train = SmartDrive(left, right, gyro, 460)
+drive_train = SmartDrive(left, right, gyro, TRACK_DISTANCE)
 drive_train.set_timeout(4000)
 # DONE
 lever = Motor(Ports.PORT8)
@@ -142,6 +146,16 @@ def driver_control():
 
 def move(direction: DirectionType.DirectionType, distance: int):
     drive_train.drive_for(direction, distance, MM, velocity=70)
+
+def arced_turn(direction: DirectionType.DirectionType, turn_direction: TurnType.TurnType, inner_radius: int, angle: int):
+    right_distance = (math.PI * inner_radius * angle) / 180
+    left_distance = right_distance + (math.PI * TRACK_WIDTH * angle)
+    if turn_direction == RIGHT:
+        left.spin_for(distaction, left_distance / TRACK_DISTANCE, TURNS)
+        right.spin_for(distaction, right_distance / TRACK_DISTANCE, TURNS)
+    else:
+        left.spin_for(distaction, right_distance / TRACK_DISTANCE, TURNS)
+        right.spin_for(distaction, left_distance / TRACK_DISTANCE, TURNS)
 
 
 # start: along the side      (rebecca)
