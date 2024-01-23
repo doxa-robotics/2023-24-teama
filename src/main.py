@@ -24,6 +24,7 @@ def convert_damped_controller(val):
     else:
         return value
 
+
 brain = Brain()
 
 controller = Controller()
@@ -127,15 +128,16 @@ def driver_control():
 def move(direction: DirectionType.DirectionType, distance: int):
     drive_train.drive_for(direction, distance, MM, velocity=70)
 
+
 def arced_turn(direction: DirectionType.DirectionType, turn_direction: TurnType.TurnType, inner_radius: int, angle: int):
-    right_distance = (math.PI * inner_radius * angle) / 180
-    left_distance = right_distance + (math.PI * TRACK_WIDTH * angle)
+    right_distance = (math.pi * inner_radius * angle) / 180
+    left_distance = right_distance + (math.pi * TRACK_WIDTH * angle)
     if turn_direction == RIGHT:
-        left.spin_for(distaction, left_distance / TRACK_DISTANCE, TURNS)
-        right.spin_for(distaction, right_distance / TRACK_DISTANCE, TURNS)
+        left.spin_for(direction, left_distance / TRACK_DISTANCE, TURNS)
+        right.spin_for(direction, right_distance / TRACK_DISTANCE, TURNS)
     else:
-        left.spin_for(distaction, right_distance / TRACK_DISTANCE, TURNS)
-        right.spin_for(distaction, left_distance / TRACK_DISTANCE, TURNS)
+        left.spin_for(direction, right_distance / TRACK_DISTANCE, TURNS)
+        right.spin_for(direction, left_distance / TRACK_DISTANCE, TURNS)
 
 
 # start: along the side      (rebecca)
@@ -190,6 +192,7 @@ def autoo_d():
     drive_train.turn_for(LEFT, 90)
     move(FORWARD, 100)
     lever.spin_to_position(DirectionType.REVERSE, 90, RPM)
+
 
 def auton():
     """ Main auton code. Put calls to functions here. """
