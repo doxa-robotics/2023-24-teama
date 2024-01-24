@@ -9,7 +9,7 @@ DEBUG = False
 #     o2: don't touch bar
 # skills: 60s *auton* skills
 #   none: no-op, so do nothing during auton period
-AUTON_ROUTINE = "o1"
+AUTON_ROUTINE = "skills"
 
 # Distance between wheel centers, mm
 TRACK_WIDTH = 305
@@ -127,16 +127,17 @@ def move(direction: DirectionType.DirectionType, distance: int):
 
 def arced_turn(direction: DirectionType.DirectionType, turn_direction: TurnType.TurnType, inner_radius: int, angle: int):
     right_distance = (math.pi * inner_radius * angle) / 180
-    left_distance = right_distance + (math.pi * TRACK_WIDTH * angle) / 180
+    left_distance = right_distance + ((math.pi * TRACK_WIDTH * angle) / 180)
     velocity = 50
+    ratio = (left_distance / right_distance) if right_distance > 0 else 0
     if turn_direction == RIGHT:
-        left.spin_for(direction, left_distance / TRACK_DISTANCE,
-                      TURNS, velocity, PERCENT, wait=False)
         right.spin_for(direction, right_distance / TRACK_DISTANCE,
-                       TURNS, velocity * (left_distance / right_distance), PERCENT)
+                       TURNS, velocity * ratio, PERCENT, wait=False)
+        left.spin_for(direction, left_distance / TRACK_DISTANCE,
+                      TURNS, velocity, PERCENT)
     else:
         left.spin_for(direction, right_distance / TRACK_DISTANCE, TURNS,
-                      velocity * (left_distance / right_distance), PERCENT, wait=False)
+                      velocity * ratio, PERCENT, wait=False)
         right.spin_for(direction, left_distance /
                        TRACK_DISTANCE, TURNS, velocity, PERCENT)
 
@@ -213,26 +214,29 @@ def auton_skills():
     flywheel.spin(DirectionType.FORWARD, 100, PERCENT)
     # TODO: change this to 40000 after testing
     # 40 seconds wait for preloading
-    wait(2000)
+    wait(0)
+    flywheel.stop()
     move(FORWARD, 1000)
     wing_piston.open()
     drive_train.turn_to_heading(north - 90)  # west
-    move(FORWARD, 800)
+    move(FORWARD, 1000)
     arced_turn(FORWARD, RIGHT, 0, 90)
     # should already be facing north, but to check
-    drive_train.turn_to_heading(north)
-    move(REVERSE, 600)
+    drive_train.turn_to_heading(45)
+    move(REVERSE, 400)
     # Crossing the middle
-    drive_train.drive_for(FORWARD, 1000, MM, velocity=100, units_v=PERCENT)
+    drive_train.drive_for(FORWARD, 1400, MM, velocity=100, units_v=PERCENT)
+    wait(2000)
+    drive_train.drive_for(FORWARD, 600, MM, velocity=100, units_v=PERCENT)
     arced_turn(FORWARD, RIGHT, 400, 45)
     move(FORWARD, 1000)
     drive_train.turn_to_heading(north)
     wing_piston.close()
     # moving out of the goal
     move(REVERSE, 1100)
-    drive_train.turn_to_heading(north+45)  # north-east
+    drive_train.turn_to_heading(north+70)  # north-east
     wing_piston.open()
-    move(FORWARD, 500)
+    move(FORWARD, 400)
     # could use arced turn
     drive_train.turn_to_heading(north)
     move(FORWARD, 1200)
