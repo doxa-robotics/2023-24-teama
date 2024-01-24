@@ -122,7 +122,7 @@ def driver_control():
 
 
 def move(direction: DirectionType.DirectionType, distance: int):
-    drive_train.drive_for(direction, distance, MM, velocity=70)
+    drive_train.drive_for(direction, distance, MM, velocity=80)
 
 
 def arced_turn(direction: DirectionType.DirectionType, turn_direction: TurnType.TurnType, inner_radius: int, angle: int):
@@ -146,17 +146,16 @@ def arced_turn(direction: DirectionType.DirectionType, turn_direction: TurnType.
 def autoo_o1():
     move(FORWARD, 680)
     drive_train.turn_for(LEFT, 90)
+    wing_piston.open()
     move(FORWARD, 340)
     drive_train.turn_for(RIGHT, 90)
     move(FORWARD, 880)
     drive_train.turn_for(RIGHT, 90)
-    move(FORWARD, 800)
-    drive_train.turn_for(RIGHT, 90)
-    wing_piston.open()
-    move(FORWARD, 550)
+    move(FORWARD, 400)
     lever.spin(DirectionType.REVERSE, 90, RPM)
-    move(FORWARD, 100)
-    move(REVERSE, 100)
+    move(FORWARD, 200)
+    move(REVERSE, 200)
+    wing_piston.close()
 
 
 def autoo_o2():
@@ -191,6 +190,7 @@ def autoo_d():
     drive_train.turn_for(RIGHT, 90)
     move(FORWARD, 600)
     move(REVERSE, 150)
+    balance_piston.close()
     drive_train.turn_for(LEFT, 20)
     move(FORWARD, 200)
     drive_train.turn_for(RIGHT, 20)
