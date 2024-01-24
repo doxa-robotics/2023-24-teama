@@ -227,6 +227,7 @@ def auton_skills():
     # Crossing the middle
     drive_train.drive_for(FORWARD, 1400, MM, velocity=100, units_v=PERCENT)
     wait(2000)
+    # Try again if we're stuck in the middle
     drive_train.drive_for(FORWARD, 600, MM, velocity=100, units_v=PERCENT)
     arced_turn(FORWARD, RIGHT, 400, 45)
     move(FORWARD, 1000)
