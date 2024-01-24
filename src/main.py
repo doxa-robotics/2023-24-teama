@@ -1,16 +1,16 @@
-from vex import *
 import math
 
+from vex import *
+
 DEBUG = False
-# d1: Defence, push into goal
-# d2: None
-# o1:  match load offsense, touch bar
-# o2: don't touch bar
+#     d1: Defense, push into goal
+#     d2: None
+#     o1:  match load offense, touch bar
+#     o2: don't touch bar
+# skills: 60s *auton* skills
+#   none: no-op, so do nothing during auton period
 AUTON_ROUTINE = "o1"
-# How aggressive the PID should be when adjusting the driving.
-# This is multiplied by how far off the gyro is to get the speed adjustment.
-# TODO: Fine tweak this until it works well.
-PID_AGGRESSION_MODIFIER = 5
+
 # Distance between wheel centers, mm
 TRACK_WIDTH = 305
 # Distance robot moves in one motor turn, mm
@@ -64,10 +64,6 @@ def driver_control():
     flywheel_spin_forward = False
     last_a_pressing = False
     last_b_pressing = False
-    # The heading when we started driving straight.
-    initial_heading: vexnumber | None = None
-    # The last value of axis1.
-    last_controller_turn_pos: vexnumber | None = None
     while True:
         # drivetrain
         axis1 = controller.axis1.position()  # Turning
@@ -193,6 +189,7 @@ def autoo_d():
     drive_train.turn_for(RIGHT, 90)
     move(FORWARD, 600)
     move(REVERSE, 150)
+    balance_piston.close()
     drive_train.turn_for(LEFT, 20)
     move(FORWARD, 200)
     drive_train.turn_for(RIGHT, 20)
@@ -202,7 +199,45 @@ def autoo_d():
     move(FORWARD, 250)
     drive_train.turn_for(LEFT, 90)
     move(FORWARD, 250)
-    lever.spin_to_position(DirectionType.REVERSE, 90, RPM)
+    # lever.spin_to_position(DirectionType.REVERSE, 90, RPM)
+
+
+def auton_skills():
+    """ The auton routine to run during skills.
+
+    Starts on defense: start (e.g., bottom right looking at alliance goal)
+    """
+    initial_heading = drive_train.heading()
+    # towards the alliance goal
+    north = initial_heading + 45
+    flywheel.spin(DirectionType.FORWARD, 100, PERCENT)
+    # TODO: change this to 40000 after testing
+    # 40 seconds wait for preloading
+    wait(2000)
+    move(FORWARD, 1000)
+    wing_piston.open()
+    drive_train.turn_to_heading(north - 90)  # west
+    move(FORWARD, 800)
+    arced_turn(FORWARD, RIGHT, 0, 90)
+    # should already be facing north, but to check
+    drive_train.turn_to_heading(north)
+    move(REVERSE, 600)
+    # Crossing the middle
+    drive_train.drive_for(FORWARD, 1000, MM, velocity=100, units_v=PERCENT)
+    arced_turn(FORWARD, RIGHT, 400, 45)
+    move(FORWARD, 1000)
+    drive_train.turn_to_heading(north)
+    wing_piston.close()
+    # moving out of the goal
+    move(REVERSE, 1100)
+    drive_train.turn_to_heading(north+45)  # north-east
+    wing_piston.open()
+    move(FORWARD, 500)
+    # could use arced turn
+    drive_train.turn_to_heading(north)
+    move(FORWARD, 1200)
+    wing_piston.close()
+    move(REVERSE, 600)
 
 
 def auton():
@@ -213,6 +248,8 @@ def auton():
         autoo_o2()
     elif AUTON_ROUTINE == "d2":
         autoo_d()
+    elif AUTON_ROUTINE == "skills":
+        auton_skills()
     elif AUTON_ROUTINE == "test":
         arced_turn(FORWARD, RIGHT, 10, 45)
 
