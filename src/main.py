@@ -190,6 +190,7 @@ def autoo_d():
     drive_train.turn_for(RIGHT, 90)
     move(FORWARD, 600)
     move(REVERSE, 150)
+    balance_piston.close()
     drive_train.turn_for(LEFT, 20)
     move(FORWARD, 200)
     drive_train.turn_for(RIGHT, 20)
