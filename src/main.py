@@ -168,7 +168,6 @@ def autoo_o1():
 
 
 def autoo_o2():
-    initial_heading = gyro.heading()
     lever.stop()
     move(FORWARD, 620, velocity=100)
     drive_train.turn_for(LEFT, 90)
@@ -203,11 +202,11 @@ def autoo_d():
     # drive_train.drive_for(FORWARD, 500, MM, 50, VelocityUnits.PERCENT)
     # drive_train.turn_for(RIGHT, 90)
     # wing_piston.open()
-    #move(FORWARD, 600)
-    #wing_piston.close()
-    #move(REVERSE, 600)
-    #drive_train.turn_for(LEFT, 90)
-    #move(REVERSE, 550)
+    # move(FORWARD, 600)
+    # wing_piston.close()
+    # move(REVERSE, 600)
+    # drive_train.turn_for(LEFT, 90)
+    # move(REVERSE, 550)
    # drive_train.turn_for(LEFT, 90)
    # move(REVERSE, 700)
    # lever.spin_to_position(1000)
