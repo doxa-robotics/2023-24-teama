@@ -221,12 +221,16 @@ def auton_skills():
     lever.stop(BRAKE)
     initial_heading = drive_train.heading()
     # towards the alliance goal
-    north = initial_heading + 45
     flywheel.spin(DirectionType.FORWARD, 100, PERCENT)
+    left.spin_for(REVERSE, 180 / TRACK_DISTANCE, TURNS)
+    right.spin_for(REVERSE, 10 / TRACK_DISTANCE, TURNS)
     # TODO: change this to 40000 after testing
     # 35 seconds wait for preloading
     wait(35000)
     flywheel.stop()
+    left.spin_for(REVERSE, 100 / TRACK_DISTANCE, TURNS)
+    initial_heading = drive_train.heading()
+    north = initial_heading + 45
     move(FORWARD, 1000)
     wing_piston.open()
     drive_train.turn_to_heading(north - 90)  # west
@@ -234,13 +238,13 @@ def auton_skills():
     move(FORWARD, 1000)
     arced_turn(FORWARD, RIGHT, 0, 90)
     # should already be facing north, but to check
-    drive_train.turn_to_heading(45)
+    drive_train.turn_to_heading(0)
     lever.spin(REVERSE, 80, RPM)
     move(FORWARD, 400, velocity=20)
     lever.stop()
     move(REVERSE, 700)
     # Crossing the middle
-    drive_train.drive_for(FORWARD, 3000, MM, velocity=100, units_v=PERCENT)
+    drive_train.drive_for(FORWARD, 2400, MM, velocity=100, units_v=PERCENT)
     flywheel.stop()
     wait(500)
     # To reset angles/pos
@@ -248,12 +252,12 @@ def auton_skills():
     move(FORWARD, 200)
     drive_train.turn_to_heading(north+70)  # north-east
     wing_piston.open()
-    move(FORWARD, 100)
+    move(FORWARD, 600)
     # could use arced turn
     drive_train.turn_to_heading(north)
     move(FORWARD, 800)
     wing_piston.close()
-    move(REVERSE, 600)
+    move(REVERSE, 1200)
 
 
 def auton():
