@@ -208,6 +208,7 @@ def auton_skills():
 
     Starts on defense: start (e.g., bottom right looking at alliance goal)
     """
+    lever.stop(BRAKE)
     initial_heading = drive_train.heading()
     # towards the alliance goal
     north = initial_heading + 45
@@ -223,12 +224,17 @@ def auton_skills():
     arced_turn(FORWARD, RIGHT, 0, 90)
     # should already be facing north, but to check
     drive_train.turn_to_heading(45)
-    move(REVERSE, 400)
+    flywheel.spin(DirectionType.FORWARD, 100, PERCENT)
+    lever.spin(REVERSE, 80, RPM)
+    move(FORWARD, 400)
+    lever.stop()
+    move(REVERSE, 700)
     # Crossing the middle
-    drive_train.drive_for(FORWARD, 1400, MM, velocity=100, units_v=PERCENT)
+    drive_train.drive_for(FORWARD, 2000, MM, velocity=100, units_v=PERCENT)
     wait(2000)
     # Try again if we're stuck in the middle
-    drive_train.drive_for(FORWARD, 600, MM, velocity=100, units_v=PERCENT)
+    drive_train.drive_for(FORWARD, 1000, MM, velocity=100, units_v=PERCENT)
+    flywheel.stop()
     arced_turn(FORWARD, RIGHT, 400, 45)
     move(FORWARD, 1000)
     drive_train.turn_to_heading(north)
