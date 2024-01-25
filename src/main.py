@@ -168,29 +168,30 @@ def autoo_o1():
 
 
 def autoo_o2():
+    initial_heading = gyro.heading()
     lever.stop()
-    move(FORWARD, 680)
+    move(FORWARD, 620, velocity=100)
     drive_train.turn_for(LEFT, 90)
-    move(FORWARD, 410, velocity=50)
+    move(FORWARD, 380, velocity=100)
     drive_train.turn_for(RIGHT, 90)
     wing_piston.open()
-    move(FORWARD, 200, velocity=80)
-    move(FORWARD, 450, velocity=30)
-    drive_train.turn_for(RIGHT, 45)
-    wait(300)
-    lever.spin(DirectionType.FORWARD, 10, PERCENT)
+    move(FORWARD, 200, velocity=100)
+    move(FORWARD, 450, velocity=50)
+    drive_train.turn_for(RIGHT, 95)
+    lever.spin(DirectionType.FORWARD, 100, PERCENT)
     flywheel.spin(DirectionType.REVERSE, 100, PERCENT)
-    drive_train.turn_for(RIGHT, 45)
     move(FORWARD, 200)
     flywheel.stop()
+    lever.spin(DirectionType.FORWARD, 5, PERCENT)
     move(FORWARD, 400)
-    move(REVERSE, 250)
+    move(REVERSE, 200)
     wing_piston.close()
     flywheel.stop()
-    drive_train.turn_for(LEFT, 92)
-    move(REVERSE, 700, velocity=100)
+    drive_train.turn_for(LEFT, 100)
+    move(REVERSE, 1250, velocity=100)
     drive_train.turn_for(RIGHT, 90)
-    move(REVERSE, 500, velocity=100)
+    lever.stop()
+    move(REVERSE, 640, velocity=100)
 
 
 # start:
@@ -226,8 +227,8 @@ def auton_skills():
     north = initial_heading + 45
     flywheel.spin(DirectionType.FORWARD, 100, PERCENT)
     # TODO: change this to 40000 after testing
-    # 40 seconds wait for preloading
-    wait(0)
+    # 35 seconds wait for preloading
+    wait(35000)
     flywheel.stop()
     move(FORWARD, 1000)
     wing_piston.open()
@@ -242,25 +243,18 @@ def auton_skills():
     lever.stop()
     move(REVERSE, 700)
     # Crossing the middle
-    drive_train.drive_for(FORWARD, 2000, MM, velocity=100, units_v=PERCENT)
+    drive_train.drive_for(FORWARD, 3000, MM, velocity=100, units_v=PERCENT)
     flywheel.stop()
     wait(500)
     # To reset angles/pos
-    move(REVERSE, 400)
+    move(REVERSE, 1200)
     move(FORWARD, 200)
-    arced_turn(FORWARD, RIGHT, 100, 60)
-    move(FORWARD, 1000)
-    wing_piston.close()
-    drive_train.turn_to_heading(north)
-    drive_train.turn_to_heading(north)
-    # moving out of the goal
-    move(REVERSE, 1100)
     drive_train.turn_to_heading(north+70)  # north-east
     wing_piston.open()
-    move(FORWARD, 400)
+    move(FORWARD, 100)
     # could use arced turn
     drive_train.turn_to_heading(north)
-    move(FORWARD, 1200)
+    move(FORWARD, 800)
     wing_piston.close()
     move(REVERSE, 600)
 
@@ -269,7 +263,7 @@ def auton():
     """ Main auton code. Put calls to functions here. """
     if AUTON_ROUTINE == "o1":
         autoo_o1()
-    elif AUTON_ROUTINE == "2":
+    elif AUTON_ROUTINE == "o2":
         autoo_o2()
     elif AUTON_ROUTINE == "d2":
         autoo_d()
