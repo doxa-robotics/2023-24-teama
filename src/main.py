@@ -9,7 +9,7 @@ DEBUG = False
 #     o2: don't touch bar
 # skills: 60s *auton* skills
 #   none: no-op, so do nothing during auton period
-AUTON_ROUTINE = "skills"
+AUTON_ROUTINE = "o1"
 
 # Distance between wheel centers, mm
 TRACK_WIDTH = 305
@@ -193,28 +193,23 @@ def autoo_o2():
     move(REVERSE, 500, velocity=100)
 
 
-# start:                            Coder:
+# start:
 def autoo_d():
-    move(FORWARD, 300)
     balance_piston.open()
-    drive_train.turn_for(RIGHT, 45)
-    move(FORWARD, 200)
-    drive_train.turn_for(RIGHT, 45)
-    move(FORWARD, 100)
+    move(FORWARD, 450)
+    arced_turn(FORWARD, RIGHT, 300, 100)
+
+    drive_train.drive_for(FORWARD, 500, MM, 50, VelocityUnits.PERCENT)
     drive_train.turn_for(RIGHT, 90)
+    wing_piston.open()
     move(FORWARD, 600)
-    move(REVERSE, 200)
-    balance_piston.close()
-    drive_train.turn_for(LEFT, 20)
-    move(FORWARD, 200)
-    drive_train.turn_for(RIGHT, 20)
-    move(FORWARD, 100)
-    move(REVERSE, 350)
-    drive_train.turn_for(RIGHT, 90)
-    move(FORWARD, 250)
+    wing_piston.close()
+    move(REVERSE, 600)
     drive_train.turn_for(LEFT, 90)
-    move(FORWARD, 250)
-    # lever.spin_to_position(DirectionType.REVERSE, 90, RPM)
+    move(REVERSE, 550)
+    drive_train.turn_for(LEFT, 90)
+    move(REVERSE, 700)
+    lever.spin_to_position(1000)
 
 
 def auton_skills():
