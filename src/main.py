@@ -9,7 +9,7 @@ DEBUG = False
 #     o2: don't touch bar
 # skills: 60s *auton* skills
 #   none: no-op, so do nothing during auton period
-AUTON_ROUTINE = "o2"
+AUTON_ROUTINE = "d2"
 
 # Distance between wheel centers, mm
 TRACK_WIDTH = 305
@@ -223,8 +223,8 @@ def auton_skills():
     north = initial_heading + 45
     flywheel.spin(DirectionType.FORWARD, 100, PERCENT)
     # TODO: change this to 40000 after testing
-    # 40 seconds wait for preloading
-    wait(0)
+    # 35 seconds wait for preloading
+    wait(35000)
     flywheel.stop()
     move(FORWARD, 1000)
     wing_piston.open()
@@ -239,25 +239,18 @@ def auton_skills():
     lever.stop()
     move(REVERSE, 700)
     # Crossing the middle
-    drive_train.drive_for(FORWARD, 2000, MM, velocity=100, units_v=PERCENT)
+    drive_train.drive_for(FORWARD, 3000, MM, velocity=100, units_v=PERCENT)
     flywheel.stop()
     wait(500)
     # To reset angles/pos
-    move(REVERSE, 400)
+    move(REVERSE, 1200)
     move(FORWARD, 200)
-    arced_turn(FORWARD, RIGHT, 100, 60)
-    move(FORWARD, 1000)
-    wing_piston.close()
-    drive_train.turn_to_heading(north)
-    drive_train.turn_to_heading(north)
-    # moving out of the goal
-    move(REVERSE, 1100)
     drive_train.turn_to_heading(north+70)  # north-east
     wing_piston.open()
-    move(FORWARD, 400)
+    move(FORWARD, 100)
     # could use arced turn
     drive_train.turn_to_heading(north)
-    move(FORWARD, 1200)
+    move(FORWARD, 800)
     wing_piston.close()
     move(REVERSE, 600)
 
