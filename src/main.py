@@ -9,7 +9,7 @@ DEBUG = False
 #     o2: don't touch bar
 # skills: 60s *auton* skills
 #   none: no-op, so do nothing during auton period
-AUTON_ROUTINE = "o1"
+AUTON_ROUTINE = "o2"
 
 # Distance between wheel centers, mm
 TRACK_WIDTH = 305
@@ -169,29 +169,30 @@ def autoo_o1():
 
 
 def autoo_o2():
+    initial_heading = gyro.heading()
     lever.stop()
-    move(FORWARD, 680)
+    move(FORWARD, 620, velocity=100)
     drive_train.turn_for(LEFT, 90)
-    move(FORWARD, 410, velocity=50)
+    move(FORWARD, 380, velocity=100)
     drive_train.turn_for(RIGHT, 90)
     wing_piston.open()
-    move(FORWARD, 200, velocity=80)
-    move(FORWARD, 450, velocity=30)
-    drive_train.turn_for(RIGHT, 45)
-    wait(300)
-    lever.spin(DirectionType.FORWARD, 10, PERCENT)
+    move(FORWARD, 200, velocity=100)
+    move(FORWARD, 450, velocity=50)
+    drive_train.turn_for(RIGHT, 95)
+    lever.spin(DirectionType.FORWARD, 100, PERCENT)
     flywheel.spin(DirectionType.REVERSE, 100, PERCENT)
-    drive_train.turn_for(RIGHT, 45)
     move(FORWARD, 200)
     flywheel.stop()
+    lever.spin(DirectionType.FORWARD, 5, PERCENT)
     move(FORWARD, 400)
-    move(REVERSE, 250)
+    move(REVERSE, 200)
     wing_piston.close()
     flywheel.stop()
-    drive_train.turn_for(LEFT, 92)
-    move(REVERSE, 700, velocity=100)
+    drive_train.turn_for(LEFT, 100)
+    move(REVERSE, 1250, velocity=100)
     drive_train.turn_for(RIGHT, 90)
-    move(REVERSE, 500, velocity=100)
+    lever.stop()
+    move(REVERSE, 640, velocity=100)
 
 
 # start:                            Coder:
@@ -264,7 +265,7 @@ def auton():
     """ Main auton code. Put calls to functions here. """
     if AUTON_ROUTINE == "o1":
         autoo_o1()
-    elif AUTON_ROUTINE == "2":
+    elif AUTON_ROUTINE == "o2":
         autoo_o2()
     elif AUTON_ROUTINE == "d2":
         autoo_d()
