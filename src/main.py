@@ -125,10 +125,9 @@ def move(direction: DirectionType.DirectionType, distance: int, velocity=70):
     drive_train.drive_for(direction, distance, MM, velocity, RPM)
 
 
-def arced_turn(direction: DirectionType.DirectionType, turn_direction: TurnType.TurnType, inner_radius: int, angle: int):
+def arced_turn(direction: DirectionType.DirectionType, turn_direction: TurnType.TurnType, inner_radius: int, angle: int, velocity=50):
     right_distance = (math.pi * inner_radius * angle) / 180
     left_distance = right_distance + ((math.pi * TRACK_WIDTH * angle) / 180)
-    velocity = 50
     ratio = (left_distance / right_distance) if right_distance > 0 else 0
     if turn_direction == RIGHT:
         right.spin_for(direction, right_distance / TRACK_DISTANCE,
@@ -195,28 +194,23 @@ def autoo_o2():
     move(REVERSE, 640, velocity=100)
 
 
-# start:                            Coder:
+# start:
 def autoo_d():
-    move(FORWARD, 300)
     balance_piston.open()
-    drive_train.turn_for(RIGHT, 45)
-    move(FORWARD, 200)
-    drive_train.turn_for(RIGHT, 45)
-    move(FORWARD, 100)
-    drive_train.turn_for(RIGHT, 90)
-    move(FORWARD, 600)
-    move(REVERSE, 200)
-    balance_piston.close()
-    drive_train.turn_for(LEFT, 20)
-    move(FORWARD, 200)
-    drive_train.turn_for(RIGHT, 20)
-    move(FORWARD, 100)
-    move(REVERSE, 350)
-    drive_train.turn_for(RIGHT, 90)
-    move(FORWARD, 250)
-    drive_train.turn_for(LEFT, 90)
-    move(FORWARD, 250)
-    # lever.spin_to_position(DirectionType.REVERSE, 90, RPM)
+    move(FORWARD, 450)
+    arced_turn(FORWARD, RIGHT, 300, 100)
+
+    # drive_train.drive_for(FORWARD, 500, MM, 50, VelocityUnits.PERCENT)
+    # drive_train.turn_for(RIGHT, 90)
+    # wing_piston.open()
+    #move(FORWARD, 600)
+    #wing_piston.close()
+    #move(REVERSE, 600)
+    #drive_train.turn_for(LEFT, 90)
+    #move(REVERSE, 550)
+   # drive_train.turn_for(LEFT, 90)
+   # move(REVERSE, 700)
+   # lever.spin_to_position(1000)
 
 
 def auton_skills():
@@ -224,6 +218,7 @@ def auton_skills():
 
     Starts on defense: start (e.g., bottom right looking at alliance goal)
     """
+    lever.stop(BRAKE)
     initial_heading = drive_train.heading()
     # towards the alliance goal
     north = initial_heading + 45
@@ -235,20 +230,27 @@ def auton_skills():
     move(FORWARD, 1000)
     wing_piston.open()
     drive_train.turn_to_heading(north - 90)  # west
+    flywheel.spin(DirectionType.REVERSE, 100, PERCENT)
     move(FORWARD, 1000)
     arced_turn(FORWARD, RIGHT, 0, 90)
     # should already be facing north, but to check
     drive_train.turn_to_heading(45)
-    move(REVERSE, 400)
+    lever.spin(REVERSE, 80, RPM)
+    move(FORWARD, 400, velocity=20)
+    lever.stop()
+    move(REVERSE, 700)
     # Crossing the middle
-    drive_train.drive_for(FORWARD, 1400, MM, velocity=100, units_v=PERCENT)
-    wait(2000)
-    # Try again if we're stuck in the middle
-    drive_train.drive_for(FORWARD, 600, MM, velocity=100, units_v=PERCENT)
-    arced_turn(FORWARD, RIGHT, 400, 45)
+    drive_train.drive_for(FORWARD, 2000, MM, velocity=100, units_v=PERCENT)
+    flywheel.stop()
+    wait(500)
+    # To reset angles/pos
+    move(REVERSE, 400)
+    move(FORWARD, 200)
+    arced_turn(FORWARD, RIGHT, 100, 60)
     move(FORWARD, 1000)
-    drive_train.turn_to_heading(north)
     wing_piston.close()
+    drive_train.turn_to_heading(north)
+    drive_train.turn_to_heading(north)
     # moving out of the goal
     move(REVERSE, 1100)
     drive_train.turn_to_heading(north+70)  # north-east
