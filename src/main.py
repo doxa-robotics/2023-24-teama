@@ -125,10 +125,9 @@ def move(direction: DirectionType.DirectionType, distance: int, velocity=70):
     drive_train.drive_for(direction, distance, MM, velocity, RPM)
 
 
-def arced_turn(direction: DirectionType.DirectionType, turn_direction: TurnType.TurnType, inner_radius: int, angle: int):
+def arced_turn(direction: DirectionType.DirectionType, turn_direction: TurnType.TurnType, inner_radius: int, angle: int, velocity=50):
     right_distance = (math.pi * inner_radius * angle) / 180
     left_distance = right_distance + ((math.pi * TRACK_WIDTH * angle) / 180)
-    velocity = 50
     ratio = (left_distance / right_distance) if right_distance > 0 else 0
     if turn_direction == RIGHT:
         right.spin_for(direction, right_distance / TRACK_DISTANCE,
