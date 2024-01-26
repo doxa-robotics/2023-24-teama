@@ -273,6 +273,10 @@ def auton_skills():
 
 
 def driver_skills():
+    # fix since driver skills runs during auton skills because vex is dumb
+    # now need to press [left] at the beginning
+    while not controller.buttonLeft.pressing():
+        wait(10)
     position_skills()
     driver_control(flywheel_on=True, flywheel_speed=70)
 
