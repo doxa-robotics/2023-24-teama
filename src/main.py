@@ -243,7 +243,9 @@ def auton_skills():
     lever.stop()
     move(REVERSE, 700)
     # Crossing the middle
-    drive_train.drive_for(FORWARD, 2400, MM, velocity=100, units_v=PERCENT)
+    drive_train.drive_for(FORWARD, 1600, MM, velocity=100, units_v=PERCENT)
+    wait(500)
+    drive_train.drive_for(FORWARD, 800, MM, velocity=70, units_v=PERCENT)
     flywheel.stop()
     wait(500)
     # To reset angles/pos
