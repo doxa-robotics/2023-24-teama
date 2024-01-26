@@ -186,7 +186,7 @@ def autoo_o2():
     move(REVERSE, 200)
     wing_piston.close()
     flywheel.stop()
-    drive_train.turn_for(LEFT, 110)
+    drive_train.turn_for(LEFT, 113)
     move(REVERSE, 1250, velocity=100)
     drive_train.turn_for(RIGHT, 90)
     lever.stop()
