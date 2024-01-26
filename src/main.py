@@ -263,7 +263,7 @@ def auton_skills():
     drive_train.turn_to_heading(north)
     wing_piston.open()
     wait(500)
-    move(FORWARD, 500)
+    move(FORWARD, 600)
     wing_piston.close()
     move(REVERSE, 800, velocity=100)
     wing_piston.open()
