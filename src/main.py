@@ -8,6 +8,7 @@ DEBUG = False
 #     o1:  match load offense, touch bar
 #     o2: don't touch bar
 # skills: 60s *auton* skills
+#         IMPORTANT NOTE: Driver skills needs AUTHON_ROUTINE = "skills" too
 #   none: no-op, so do nothing during auton period
 AUTON_ROUTINE = "o2"
 
@@ -59,9 +60,9 @@ wait(200)
 # TODO: we should calibrate the gyro here instead
 
 
-def driver_control():
+def driver_control(flywheel_on=False):
     last_r2_pressing = False
-    flywheel_spin_forward = False
+    flywheel_spin_forward = flywheel_on
     last_a_pressing = False
     last_b_pressing = False
     while True:
@@ -212,6 +213,16 @@ def autoo_d():
     # lever.spin_to_position(1000)
 
 
+def position_skills(direction=LEFT):
+    flywheel.spin(DirectionType.FORWARD, 100, PERCENT)
+    if direction == LEFT:
+        left.spin_for(REVERSE, 180 / TRACK_DISTANCE, TURNS)
+        right.spin_for(REVERSE, 10 / TRACK_DISTANCE, TURNS)
+    else:
+        right.spin_for(REVERSE, 180 / TRACK_DISTANCE, TURNS)
+        left.spin_for(REVERSE, 10 / TRACK_DISTANCE, TURNS)
+
+
 def auton_skills():
     """ The auton routine to run during skills.
 
@@ -220,9 +231,7 @@ def auton_skills():
     lever.stop(BRAKE)
     initial_heading = drive_train.heading()
     # towards the alliance goal
-    flywheel.spin(DirectionType.FORWARD, 100, PERCENT)
-    left.spin_for(REVERSE, 180 / TRACK_DISTANCE, TURNS)
-    right.spin_for(REVERSE, 10 / TRACK_DISTANCE, TURNS)
+    position_skills()
     # TODO: change this to 40000 after testing
     # 35 seconds wait for preloading
     wait(35000)
@@ -261,6 +270,11 @@ def auton_skills():
     move(REVERSE, 1200)
 
 
+def driver_skills():
+    position_skills(direction=RIGHT)
+    driver_control(flywheel_on=True)
+
+
 def auton():
     """ Main auton code. Put calls to functions here. """
     if AUTON_ROUTINE == "o1":
@@ -278,4 +292,5 @@ def auton():
 if DEBUG:
     driver_control()
 else:
-    Competition(driver_control, auton)
+    Competition(driver_skills if AUTON_ROUTINE ==
+                "skills" else driver_control, auton)
