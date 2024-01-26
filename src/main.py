@@ -8,7 +8,8 @@ DEBUG = False
 #     o1:  match load offense, touch bar
 #     o2: don't touch bar
 # skills: 60s *auton* skills
-#         IMPORTANT NOTE: Driver skills needs AUTHON_ROUTINE = "skills" too
+#         IMPORTANT NOTE: Driver skills needs AUTON_ROUTINE = "skills" too
+#         Both start on the right
 #   none: no-op, so do nothing during auton period
 AUTON_ROUTINE = "skills"
 
@@ -213,16 +214,10 @@ def autoo_d():
     # lever.spin_to_position(1000)
 
 
-def position_skills(direction=LEFT):
+def position_skills():
     flywheel.spin(DirectionType.FORWARD, 70, PERCENT)
-    left_distance = 140
-    right_distance = 10
-    if direction == LEFT:
-        left.spin_for(REVERSE, left_distance / TRACK_DISTANCE, TURNS)
-        right.spin_for(REVERSE, right_distance / TRACK_DISTANCE, TURNS)
-    else:
-        right.spin_for(REVERSE, left_distance / TRACK_DISTANCE, TURNS)
-        left.spin_for(REVERSE, right_distance / TRACK_DISTANCE, TURNS)
+    left.spin_for(REVERSE, 140 / TRACK_DISTANCE, TURNS)
+    right.spin_for(REVERSE, 10 / TRACK_DISTANCE, TURNS)
 
 
 def auton_skills():
@@ -278,7 +273,7 @@ def auton_skills():
 
 
 def driver_skills():
-    position_skills(direction=RIGHT)
+    position_skills()
     driver_control(flywheel_on=True, flywheel_speed=70)
 
 
