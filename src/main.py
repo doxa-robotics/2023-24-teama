@@ -9,7 +9,7 @@ DEBUG = False
 #     o2: don't touch bar
 # skills: 60s *auton* skills
 #   none: no-op, so do nothing during auton period
-AUTON_ROUTINE = "d2"
+AUTON_ROUTINE = "o2"
 
 # Distance between wheel centers, mm
 TRACK_WIDTH = 305
@@ -186,7 +186,7 @@ def autoo_o2():
     move(REVERSE, 200)
     wing_piston.close()
     flywheel.stop()
-    drive_train.turn_for(LEFT, 100)
+    drive_train.turn_for(LEFT, 110)
     move(REVERSE, 1250, velocity=100)
     drive_train.turn_for(RIGHT, 90)
     lever.stop()
