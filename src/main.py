@@ -281,6 +281,16 @@ def driver_skills():
     driver_control(flywheel_on=True, flywheel_speed=70)
 
 
+def auton_4253r():
+    """ Starting at defense and messing up the triballs for the other team """
+    flywheel.spin(DirectionType.REVERSE, 100, PERCENT)
+    move(FORWARD, 1000, velocity=100)
+    drive_train.turn_for(LEFT, 45)
+    # careful not to cross the line
+    move(FORWARD, 600, velocity=100)
+    wing_piston.open()
+
+
 def auton():
     """ Main auton code. Put calls to functions here. """
     if AUTON_ROUTINE == "o1":
