@@ -285,20 +285,14 @@ def auton_4253r():
     move(FORWARD, 1050, velocity=150)
     drive_train.turn_for(LEFT, 50)
     # careful not to cross the line
-    move(FORWARD, 470, velocity=150)
-    wing_piston.open()
-    wait(1000)
-    move(REVERSE, 30, velocity=150)
-    wait(500)
-    drive_train.turn_for(LEFT, 90)
-    wing_piston.close()
     lever.spin(DirectionType.FORWARD, 40, PERCENT)
     flywheel.spin(DirectionType.REVERSE, 100, PERCENT)
-    move(FORWARD, 600, velocity=110)
-    flywheel.stop()
-    move(REVERSE, 100, velocity=110)
-    drive_train.turn_for(RIGHT, 90)
+    move(FORWARD, 470, velocity=150)
     lever.stop()
+    flywheel.stop()
+    wing_piston.open()
+    wait(1000)
+    move(REVERSE, 300, velocity=150)
 
 
 def auton_4253r_2_towards_barrier():
