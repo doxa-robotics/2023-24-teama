@@ -11,7 +11,7 @@ DEBUG = False
 #         IMPORTANT NOTE: Driver skills needs AUTON_ROUTINE = "skills" too
 #         Both start on the right
 #   none: no-op, so do nothing during auton period
-AUTON_ROUTINE = "skills"
+AUTON_ROUTINE = "d2"
 
 # Distance between wheel centers, mm
 TRACK_WIDTH = 305
@@ -208,14 +208,6 @@ def autoo_d2():
     move(FORWARD, 400)
     right.spin_for(REVERSE, 500/TRACK_DISTANCE, TURNS, 25, PERCENT)
     left.spin_for(FORWARD, 100/TRACK_DISTANCE, TURNS, 12.5, PERCENT)
-    drive_train.turn_for(RIGHT, 45)
-    move(FORWARD, 600)
-    move(REVERSE, 600)
-    drive_train.turn_for(LEFT, 90)
-    move(REVERSE, 550)
-    lever.spin_to_position(1000)
-    drive_train.turn_for(LEFT, 90)
-    move(REVERSE, 700)
 
 
 def position_skills():
