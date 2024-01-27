@@ -13,7 +13,7 @@ DEBUG = False
 #  4253r: completely mess up opponent's auton
 # 4253r2: completely mess up opponent's auton by swatting center triball away
 #   none: no-op, so do nothing during auton period
-AUTON_ROUTINE = "4253r2"
+AUTON_ROUTINE = "4253r"
 
 # Distance between wheel centers, mm
 TRACK_WIDTH = 305
