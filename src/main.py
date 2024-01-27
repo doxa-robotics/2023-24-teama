@@ -11,8 +11,9 @@ DEBUG = False
 #         IMPORTANT NOTE: Driver skills needs AUTON_ROUTINE = "skills" too
 #         Both start on the right
 #  4253r: completely mess up opponent's auton
+# 4253r2: completely mess up opponent's auton by swatting center triball away
 #   none: no-op, so do nothing during auton period
-AUTON_ROUTINE = "4253r"
+AUTON_ROUTINE = "4253r2"
 
 # Distance between wheel centers, mm
 TRACK_WIDTH = 305
@@ -301,6 +302,29 @@ def auton_4253r():
     lever.stop()
 
 
+def auton_4253r_2_towards_barrier():
+    """ Starting at defense and messing up the center triball for the other team """
+
+    move(FORWARD, 1050, velocity=150)
+    drive_train.turn_for(LEFT, 50)
+    # careful not to cross the line
+    move(FORWARD, 450, velocity=150)
+    wing_piston.open()
+    wait(500)
+    drive_train.turn_for(RIGHT, 90, velocity=130)
+    wing_piston.close()
+    wait(500)
+    drive_train.turn_for(LEFT, 180)
+    lever.spin(DirectionType.FORWARD, 10, PERCENT)
+    flywheel.spin(DirectionType.REVERSE, 100, PERCENT)
+    move(FORWARD, 600, velocity=110)
+    flywheel.stop()
+    move(REVERSE, 100, velocity=110)
+    drive_train.turn_for(RIGHT, 90)
+    lever.spin(DirectionType.REVERSE, 90, PERCENT)
+    lever.stop()
+
+
 def auton():
     """ Main auton code. Put calls to functions here. """
     if AUTON_ROUTINE == "o1":
@@ -315,6 +339,8 @@ def auton():
         auton_skills()
     elif AUTON_ROUTINE == "4253r":
         auton_4253r()
+    elif AUTON_ROUTINE == "4253r2":
+        auton_4253r_2_towards_barrier()
     elif AUTON_ROUTINE == "test":
         arced_turn(FORWARD, RIGHT, 10, 45)
 
