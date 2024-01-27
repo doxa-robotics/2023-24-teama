@@ -280,12 +280,25 @@ def driver_skills():
 
 def auton_4253r():
     """ Starting at defense and messing up the triballs for the other team """
-    flywheel.spin(DirectionType.REVERSE, 100, PERCENT)
-    move(FORWARD, 1000, velocity=100)
-    drive_train.turn_for(LEFT, 45)
+
+    move(FORWARD, 1050, velocity=150)
+    drive_train.turn_for(LEFT, 50)
     # careful not to cross the line
-    move(FORWARD, 600, velocity=100)
+    move(FORWARD, 470, velocity=150)
     wing_piston.open()
+    wait(1000)
+    move(REVERSE, 30, velocity=150)
+    wait(500)
+    drive_train.turn_for(LEFT, 90)
+    wing_piston.close()
+    lever.spin(DirectionType.FORWARD, 10, PERCENT)
+    flywheel.spin(DirectionType.REVERSE, 100, PERCENT)
+    move(FORWARD, 600, velocity=110)
+    flywheel.stop()
+    move(REVERSE, 100, velocity=110)
+    drive_train.turn_for(RIGHT, 90)
+    lever.spin(DirectionType.REVERSE, 90, PERCENT)
+    lever.stop()
 
 
 def auton():
@@ -311,3 +324,4 @@ if DEBUG:
 else:
     Competition(driver_skills if AUTON_ROUTINE ==
                 "skills" else driver_control, auton)
+9
