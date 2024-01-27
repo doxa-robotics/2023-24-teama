@@ -183,10 +183,10 @@ def autoo_o2():
     flywheel.stop()
     lever.spin(DirectionType.FORWARD, 5, PERCENT)
     move(FORWARD, 400)
-    move(REVERSE, 205)
+    move(REVERSE, 260)
     wing_piston.close()
     flywheel.stop()
-    drive_train.turn_for(LEFT, 117)
+    drive_train.turn_for(LEFT, 118)
     move(REVERSE, 1250, velocity=100)
     drive_train.turn_for(RIGHT, 90)
     lever.stop()
@@ -194,22 +194,26 @@ def autoo_o2():
 
 
 # start:
-def autoo_d():
+def autoo_d1():
     balance_piston.open()
     move(FORWARD, 400)
-    arced_turn(FORWARD, RIGHT, 300, 100)
+    right.spin_for(REVERSE, 500/TRACK_DISTANCE, TURNS, 25, PERCENT)
+    left.spin_for(FORWARD, 100/TRACK_DISTANCE, TURNS, 12.5, PERCENT)
 
-    # drive_train.drive_for(FORWARD, 500, MM, 50, VelocityUnits.PERCENT)
-    # drive_train.turn_for(RIGHT, 90)
-    # wing_piston.open()
-    # move(FORWARD, 600)
-    # wing_piston.close()
-    # move(REVERSE, 600)
-    # drive_train.turn_for(LEFT, 90)
-    # move(REVERSE, 550)
-    # drive_train.turn_for(LEFT, 90)
-    # move(REVERSE, 700)
-    # lever.spin_to_position(1000)
+
+def autoo_d2():
+    balance_piston.open()
+    move(FORWARD, 400)
+    right.spin_for(REVERSE, 500/TRACK_DISTANCE, TURNS, 25, PERCENT)
+    left.spin_for(FORWARD, 100/TRACK_DISTANCE, TURNS, 12.5, PERCENT)
+    drive_train.turn_for(RIGHT, 45)
+    move(FORWARD, 600)
+    move(REVERSE, 600)
+    drive_train.turn_for(LEFT, 90)
+    move(REVERSE, 550)
+    lever.spin_to_position(1000)
+    drive_train.turn_for(LEFT, 90)
+    move(REVERSE, 700)
 
 
 def auton_skills():
@@ -267,8 +271,10 @@ def auton():
         autoo_o1()
     elif AUTON_ROUTINE == "o2":
         autoo_o2()
+    elif AUTON_ROUTINE == "d1":
+        autoo_d1()
     elif AUTON_ROUTINE == "d2":
-        autoo_d()
+        autoo_d2()
     elif AUTON_ROUTINE == "skills":
         auton_skills()
     elif AUTON_ROUTINE == "test":
