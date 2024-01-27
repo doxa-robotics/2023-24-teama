@@ -10,8 +10,9 @@ DEBUG = False
 # skills: 60s *auton* skills
 #         IMPORTANT NOTE: Driver skills needs AUTON_ROUTINE = "skills" too
 #         Both start on the right
+#  4253r: completely mess up opponent's auton
 #   none: no-op, so do nothing during auton period
-AUTON_ROUTINE = "d2"
+AUTON_ROUTINE = "4253r"
 
 # Distance between wheel centers, mm
 TRACK_WIDTH = 305
@@ -299,6 +300,8 @@ def auton():
         autoo_d2()
     elif AUTON_ROUTINE == "skills":
         auton_skills()
+    elif AUTON_ROUTINE == "4253r":
+        auton_4253r()
     elif AUTON_ROUTINE == "test":
         arced_turn(FORWARD, RIGHT, 10, 45)
 
